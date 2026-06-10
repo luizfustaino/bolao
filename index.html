@@ -664,7 +664,7 @@ function renderPerson(){
     // predicted final standings for this group
     const prows=standingsTable(data.groups[L], gs.map(x=>{const b=pr[x.n]||{};return {h:x.h,a:x.a,hg:b.hg,ag:b.ag};}));
     html+=`<div class="predstand"><div class="pshdr">📊 Classificação prevista por ${p}</div>`+
-      prows.map((r,i)=>`<div class="psrow ${i<3?'pp'+(i+1):''}"><span class="psp">${i+1}º</span>${fl(r.t)}<span class="psn">${nm(r.t)}</span><span class="pspts">${r.pts} pts · ${r.gd>0?'+':''}${r.gd}</span></div>`).join('')+
+      prows.map((r,i)=>`<div class="psrow ${i<3?'pp'+(i+1):''}"><span class="psp">${i+1}º</span>${fl(r.t)}<span class="psn">${nm(r.t)}</span></div>`).join('')+
       `</div>`;
     html+='</div>';
   });
