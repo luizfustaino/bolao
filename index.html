@@ -71,6 +71,14 @@ main{padding:14px 14px 0}
 .banner .lbl{font-size:11px;letter-spacing:1.4px;text-transform:uppercase;opacity:.85;font-weight:600}
 .banner .big{font-family:Anton,sans-serif;font-size:25px;letter-spacing:.5px;margin-top:3px}
 .banner .small{font-size:12.5px;opacity:.9;margin-top:3px}
+.banner.clickable{cursor:pointer}
+.banner.clickable:active{transform:scale(.992)}
+.banner .bn-list{margin-top:9px;display:flex;flex-direction:column;gap:5px}
+.banner .bn-list span{font-size:13px;opacity:.96;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.banner .bn-list b{font-variant-numeric:tabular-nums;font-weight:700;margin-right:6px;color:#fff}
+.banner .bn-cta{margin-top:11px;font-size:12px;font-weight:700;letter-spacing:.2px;
+  display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,.16);
+  padding:7px 12px;border-radius:999px}
 
 /* segmented control */
 .seg{display:flex;background:var(--paper2);border:1px solid var(--line2);border-radius:12px;padding:3px;gap:3px;margin-bottom:14px}
@@ -184,10 +192,17 @@ main{padding:14px 14px 0}
 .pgroup .gh .nm{font-size:11.5px;font-weight:700;color:var(--muted)}
 .prow{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);
   border-radius:10px;padding:8px 11px;margin-bottom:6px}
+.prow .pmatch{flex:1;display:flex;align-items:center;gap:8px;min-width:0}
 .prow .fl{width:22px;height:16px;border-radius:3px;flex:none;object-fit:cover;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
 .prow .pt1{flex:1;font-size:13px;font-weight:600;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .prow .pt2{flex:1;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .prow .psc{font-family:Anton,sans-serif;font-size:15px;letter-spacing:1px;color:var(--ink);min-width:42px;text-align:center}
+.prow .ptag{flex:none;font-size:10px;font-weight:800;padding:2px 6px;border-radius:6px;letter-spacing:.2px;white-space:nowrap}
+.prow.pm-mosca{background:var(--gold-soft);border-color:var(--gold)}
+.prow.pm-mosca .ptag{background:var(--gold-d);color:#fff}
+.prow.pm-formiga{background:#FBEFE6;border-color:var(--sienna-soft)}
+.prow.pm-formiga .ptag{background:var(--sienna);color:#fff}
+.prow.pm-miss .ptag{background:var(--line2);color:var(--muted)}
 
 /* ---------- Standings table (Classificação) ---------- */
 .stcard{margin-bottom:18px}
@@ -348,6 +363,7 @@ document.getElementById('logo').src = logo;
 
 /* ---------- helpers ---------- */
 const MES=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+const MESLONG=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
 function parseDate(s){ // '11/06/2026 (qui)'
   const m=s.match(/(\d{2})\/(\d{2})\/(\d{4})\s*\(([^)]+)\)/);
   return {d:+m[1],mo:+m[2],y:+m[3],dow:m[4]};
@@ -434,20 +450,48 @@ const SCORES={}; PT.forEach(p=>{const r=data.ranking[p]||{};
 /* JOGOS view                                                            */
 /* ===================================================================== */
 let jogosMode='dia', grpFilter='Todos';
+function todayKeyBR(){
+  const f=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Sao_Paulo',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+  const [y,m,d]=f.split('-').map(Number); return y*10000+m*100+d;
+}
+function fmtHora(t){const s=(''+t).slice(0,5);const [h,mm]=s.split(':');return mm==='00'?h+'h':h+'h'+mm;}
+function bannerList(gs){return `<div class="bn-list">`+gs.map(g=>`<span><b>${fmtHora(g.time)}</b> ${nm(g.h)} × ${nm(g.a)}</span>`).join('')+`</div>`;}
 function renderBanner(){
   const el=document.getElementById('banner');
-  const target=new Date('2026-06-11T16:00:00-03:00').getTime();
-  const now=Date.now();
-  if(ANY_RESULT){
-    el.innerHTML=`<div class="lbl">Fase de grupos</div><div class="big">Bola rolando! 🟢</div><div class="small">Toque num jogo para ver os palpites de todos.</div>`;
+  const tk=todayKeyBR();
+  const todays=data.games.filter(g=>dateKey(g.date)===tk).sort((a,b)=>timeKey(a.time)-timeKey(b.time)||a.n-b.n);
+  if(todays.length){
+    const p=parseDate(todays[0].date);
+    el.dataset.scroll=tk; el.classList.add('clickable');
+    el.innerHTML=`<div class="lbl">🟢 Jogos de hoje · ${p.dow}</div>
+      <div class="big">${p.d} de ${MESLONG[p.mo-1]}</div>
+      ${bannerList(todays)}
+      <div class="bn-cta">Toque para ver os palpites de todos ›</div>`;
     return;
   }
-  if(now<target){
-    const diff=target-now; const dd=Math.floor(diff/864e5); const hh=Math.floor(diff%864e5/36e5);
-    el.innerHTML=`<div class="lbl">Primeiro jogo · México x África do Sul</div><div class="big">Faltam ${dd}d ${hh}h</div><div class="small">11/06, 16h (Brasília)</div>`;
-  }else{
-    el.innerHTML=`<div class="lbl">Fase de grupos</div><div class="big">A Copa começou! 🟢</div><div class="small">Toque num jogo para ver os palpites de todos.</div>`;
+  // no games today → find next day with games
+  const future=data.games.filter(g=>dateKey(g.date)>tk);
+  if(future.length){
+    const nk=Math.min(...future.map(g=>dateKey(g.date)));
+    const next=data.games.filter(g=>dateKey(g.date)===nk).sort((a,b)=>timeKey(a.time)-timeKey(b.time)||a.n-b.n);
+    const p=parseDate(next[0].date);
+    el.dataset.scroll=nk; el.classList.add('clickable');
+    // countdown to the very first game
+    const firstKey=Math.min(...data.games.map(g=>dateKey(g.date)));
+    let head;
+    if(tk<firstKey){
+      const tgt=new Date('2026-06-11T16:00:00-03:00').getTime(), now=Date.now();
+      head = now<tgt ? `<div class="lbl">A Copa começa em</div><div class="big">${Math.floor((tgt-now)/864e5)}d ${Math.floor((tgt-now)%864e5/36e5)}h</div>`
+                     : `<div class="lbl">Próximos jogos · ${p.dow}</div><div class="big">${p.d} de ${MESLONG[p.mo-1]}</div>`;
+    }else{
+      head=`<div class="lbl">Hoje não tem jogo · próximos · ${p.dow}</div><div class="big">${p.d} de ${MESLONG[p.mo-1]}</div>`;
+    }
+    el.innerHTML=`${head}${bannerList(next)}<div class="bn-cta">Toque para ver os jogos ›</div>`;
+    return;
   }
+  // tournament group stage finished
+  el.dataset.scroll=''; el.classList.remove('clickable');
+  el.innerHTML=`<div class="lbl">Fase de grupos</div><div class="big">Encerrada 🏁</div><div class="small">Confira o ranking final na aba 🏆.</div>`;
 }
 function renderGrpChips(){
   const el=document.getElementById('grpChips');
@@ -487,7 +531,7 @@ function renderJogos(){
     list.innerHTML=Object.keys(byDay).sort((a,b)=>dateKey(a)-dateKey(b)).map(date=>{
       const p=parseDate(date);
       const hdr=`<div class="dayhdr"><span class="d">${p.d} ${MES[p.mo-1]}</span><span class="dow">${p.dow}</span><span class="ln"></span></div>`;
-      return `<div class="daygroup">${hdr}${byDay[date].map(g=>matchHTML(g,true)).join('')}</div>`;
+      return `<div class="daygroup" data-date="${dateKey(date)}">${hdr}${byDay[date].map(g=>matchHTML(g,true)).join('')}</div>`;
     }).join('');
   }else{
     const groups=Object.keys(data.groups).filter(L=>grpFilter==='Todos'||L===grpFilter);
@@ -498,24 +542,46 @@ function renderJogos(){
     }).join('');
   }
 }
+function loadBets(m){
+  const bets=m.querySelector('.bets');
+  if(bets.dataset.loaded!=='0') return;
+  const n=+m.dataset.n;
+  const g=data.games.find(x=>x.n===n);
+  const rows=PT_AZ.map(p=>{
+    const b=data.preds[p][n]||{};
+    const r=evalBet(g,b.hg,b.ag);
+    const cls=r?(r==='mosca'?'mosca':(r==='formiga'?'formiga':'miss')):'';
+    const tag=r==='mosca'?'<span class="tag">🪰 +3</span>':(r==='formiga'?'<span class="tag">🐜 +1</span>':'');
+    return `<div class="bet ${cls}"><span class="who">${p}</span><span class="gss">${esc(b.hg)} <span style="color:var(--faint)">x</span> ${esc(b.ag)}</span>${tag}</div>`;
+  }).join('');
+  bets.innerHTML=`<div class="bhdr"><span>Palpites · ${PT.length} pessoas</span><span>${g.h} x ${g.a}</span></div>${rows}`;
+  bets.dataset.loaded='1';
+}
 function toggleMatch(top){
   const m=top.parentElement;
-  const bets=m.querySelector('.bets');
-  if(bets.dataset.loaded==='0'){
-    const n=+m.dataset.n;
-    const g=data.games.find(x=>x.n===n);
-    const rows=PT_AZ.map(p=>{
-      const b=data.preds[p][n]||{};
-      const r=evalBet(g,b.hg,b.ag);
-      const cls=r?(r==='mosca'?'mosca':(r==='formiga'?'formiga':'miss')):'';
-      const tag=r==='mosca'?'<span class="tag">🪰 +3</span>':(r==='formiga'?'<span class="tag">🐜 +1</span>':'');
-      return `<div class="bet ${cls}"><span class="who">${p}</span><span class="gss">${esc(b.hg)} <span style="color:var(--faint)">x</span> ${esc(b.ag)}</span>${tag}</div>`;
-    }).join('');
-    bets.innerHTML=`<div class="bhdr"><span>Palpites · ${PT.length} pessoas</span><span>${g.h} x ${g.a}</span></div>${rows}`;
-    bets.dataset.loaded='1';
-  }
+  loadBets(m);
   m.classList.toggle('open');
 }
+function openMatchEl(m){ loadBets(m); m.classList.add('open'); }
+function scrollToDay(key){
+  if(!key) return;
+  if(jogosMode!=='dia'){
+    jogosMode='dia';
+    document.querySelectorAll('#jogosMode button').forEach(x=>x.classList.toggle('on',x.dataset.mode==='dia'));
+    renderGrpChips(); renderJogos();
+  }
+  requestAnimationFrame(()=>{
+    const el=document.querySelector(`.daygroup[data-date="${key}"]`);
+    if(!el) return;
+    el.querySelectorAll('.match').forEach(openMatchEl);
+    const y=el.getBoundingClientRect().top + window.scrollY - 62;
+    window.scrollTo({top:y, behavior:'smooth'});
+  });
+}
+document.getElementById('banner').addEventListener('click', e=>{
+  const key=e.currentTarget.dataset.scroll;
+  if(key) scrollToDay(+key);
+});
 document.getElementById('jogosMode').querySelectorAll('button').forEach(b=>b.onclick=()=>{
   jogosMode=b.dataset.mode;
   document.querySelectorAll('#jogosMode button').forEach(x=>x.classList.toggle('on',x===b));
@@ -656,11 +722,16 @@ function renderPerson(){
     html+=gs.map(g=>{
       const b=pr[g.n]||{};
       const r=evalBet(g,b.hg,b.ag);
-      const bg=r==='mosca'?'background:var(--gold-soft);border-color:var(--gold)':(r==='formiga'?'border-color:var(--sienna-soft)':'');
-      return `<div class="prow" style="${bg}">
-          <span class="pt1">${nm(g.h)}</span>${fl(g.h)}
-          <span class="psc">${esc(b.hg)} x ${esc(b.ag)}</span>
-          ${fl(g.a)}<span class="pt2">${nm(g.a)}</span>
+      let cls='', tag='';
+      if(r==='mosca'){cls='pm-mosca'; tag='<span class="ptag tmosca">🪰 +3</span>';}
+      else if(r==='formiga'){cls='pm-formiga'; tag='<span class="ptag tformiga">🐜 +1</span>';}
+      else if(r==='miss'){cls='pm-miss'; tag='<span class="ptag tmiss">0</span>';}
+      return `<div class="prow ${cls}">
+          <div class="pmatch">
+            <span class="pt1">${nm(g.h)}</span>${fl(g.h)}
+            <span class="psc">${esc(b.hg)} x ${esc(b.ag)}</span>
+            ${fl(g.a)}<span class="pt2">${nm(g.a)}</span>
+          </div>${tag}
         </div>`;
     }).join('');
     // predicted final standings for this group (locked bet from the spreadsheet)
