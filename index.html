@@ -292,6 +292,18 @@ main{padding:14px 14px 0}
 .daygroup.kofinal .match{border-color:var(--gold);box-shadow:0 1px 2px rgba(60,48,20,.06),0 6px 18px rgba(192,154,62,.18)}
 .daygroup.kofinal .dayhdr .d{color:var(--gold-d)}
 .prow .pt1.mut,.prow .pt2.mut{color:var(--faint);font-style:italic}
+.koprow{flex-direction:column;align-items:stretch;gap:7px}
+.koadv{display:flex;align-items:center;gap:6px;padding:5px 9px;border-radius:9px;
+  background:var(--pitch-soft);border:1px solid #CFE3D6}
+.koadv .kal{font-size:10px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--pitch-d)}
+.koadv .fl{width:20px;height:14px;border-radius:3px;flex:none;object-fit:cover;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
+.koadv .kan{font-size:13px;font-weight:700;color:var(--ink);flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.koadv .kpen{font-size:9px;font-weight:800;letter-spacing:.3px;text-transform:uppercase;color:var(--gold-d);
+  background:var(--gold-soft);border:1px solid #E8D49A;border-radius:6px;padding:2px 6px;flex:none}
+.bet .betadv{flex:none;display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--pitch-d)}
+.bet .betadv .fl{width:19px;height:14px;border-radius:3px;flex:none;object-fit:cover;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
+.bet .betadv .kpen{font-size:9px;font-weight:800;color:var(--gold-d)}
+.koempty{font-size:12.5px;color:var(--muted);padding:8px 2px}
 .novato{font-family:Inter;font-size:9.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;
   color:var(--pitch-d);background:var(--pitch-soft);border:1px solid #CFE3D6;border-radius:999px;padding:2px 7px;vertical-align:middle}
 .rname small.mmsub{color:var(--pitch-d)}
@@ -895,8 +907,10 @@ function renderPerson(){
 var mmMode='dia';
 var rankScope='grupos';
 
-/* participantes que entram SO no mata-mata (preencher depois) */
-data.koParticipants = data.koParticipants || [];
+/* participantes que entram SO no mata-mata */
+data.koParticipants = data.koParticipants || ["Joca", "Aninha"];
+data.meta = data.meta || {};
+data.meta["Joca"] = data.meta["Joca"] || {"full":"Joca Fustaino"};
 const PT_MM = PT.concat(data.koParticipants);
 const PT_MM_AZ = PT_MM.slice().sort((a,b)=>a.localeCompare(b,'pt'));
 const KO_ONLY = new Set(data.koParticipants);
@@ -947,6 +961,228 @@ const KO_ONLY = new Set(data.koParticipants);
 data.koPreds   = data.koPreds   || {};
 data.koRanking = data.koRanking || {};
 
+/* ---- Palpites do mata-mata: 16-avos (jogos 73-88) ---- */
+/* penWinner = quem o apostador crava nos pênaltis quando crava empate. */
+Object.assign(data.koPreds, {
+  "Claudia": {
+    "73": {"hg": 2, "ag": 3},
+    "74": {"hg": 2, "ag": 2, "penWinner": "Paraguai"},
+    "75": {"hg": 0, "ag": 2},
+    "76": {"hg": 1, "ag": 2},
+    "77": {"hg": 3, "ag": 1},
+    "78": {"hg": 2, "ag": 0},
+    "79": {"hg": 1, "ag": 2},
+    "80": {"hg": 0, "ag": 1},
+    "81": {"hg": 2, "ag": 2, "penWinner": "Bósnia-Herzegovina"},
+    "82": {"hg": 1, "ag": 2},
+    "83": {"hg": 0, "ag": 2},
+    "84": {"hg": 3, "ag": 0},
+    "85": {"hg": 1, "ag": 1, "penWinner": "Argélia"},
+    "86": {"hg": 2, "ag": 2, "penWinner": "Cabo Verde"},
+    "87": {"hg": 2, "ag": 1},
+    "88": {"hg": 1, "ag": 2}
+  }
+});
+Object.assign(data.koPreds, {
+  "Lucas": {
+    "73": {"hg": 1, "ag": 2},
+    "74": {"hg": 1, "ag": 0},
+    "75": {"hg": 2, "ag": 2, "penWinner": "Marrocos"},
+    "76": {"hg": 3, "ag": 2},
+    "77": {"hg": 3, "ag": 1},
+    "78": {"hg": 1, "ag": 3},
+    "79": {"hg": 0, "ag": 1},
+    "80": {"hg": 2, "ag": 1},
+    "81": {"hg": 2, "ag": 0},
+    "82": {"hg": 1, "ag": 0},
+    "83": {"hg": 2, "ag": 1},
+    "84": {"hg": 0, "ag": 1},
+    "85": {"hg": 1, "ag": 1, "penWinner": "Suíça"},
+    "86": {"hg": 2, "ag": 0},
+    "87": {"hg": 2, "ag": 1},
+    "88": {"hg": 1, "ag": 1, "penWinner": "Egito"}
+  },
+  "Luizito": {
+    "73": {"hg": 1, "ag": 2},
+    "74": {"hg": 2, "ag": 1},
+    "75": {"hg": 2, "ag": 1},
+    "76": {"hg": 3, "ag": 0},
+    "77": {"hg": 3, "ag": 1},
+    "78": {"hg": 1, "ag": 3},
+    "79": {"hg": 2, "ag": 1},
+    "80": {"hg": 2, "ag": 0},
+    "81": {"hg": 2, "ag": 1},
+    "82": {"hg": 1, "ag": 1, "penWinner": "Senegal"},
+    "83": {"hg": 2, "ag": 1},
+    "84": {"hg": 3, "ag": 1},
+    "85": {"hg": 2, "ag": 1},
+    "86": {"hg": 3, "ag": 0},
+    "87": {"hg": 2, "ag": 2, "penWinner": "Gana"},
+    "88": {"hg": 1, "ag": 2}
+  },
+  "Joca": {
+    "73": {"hg": 1, "ag": 0},
+    "74": {"hg": 4, "ag": 1},
+    "75": {"hg": 0, "ag": 2},
+    "76": {"hg": 2, "ag": 0},
+    "77": {"hg": 4, "ag": 0},
+    "78": {"hg": 2, "ag": 1},
+    "79": {"hg": 2, "ag": 1},
+    "80": {"hg": 3, "ag": 0},
+    "81": {"hg": 3, "ag": 1},
+    "82": {"hg": 0, "ag": 2},
+    "83": {"hg": 2, "ag": 0},
+    "84": {"hg": 3, "ag": 0},
+    "85": {"hg": 0, "ag": 0, "penWinner": "Suíça"},
+    "86": {"hg": 3, "ag": 0},
+    "87": {"hg": 1, "ag": 3},
+    "88": {"hg": 2, "ag": 0}
+  },
+  "Lou": {
+    "73": {"hg": 1, "ag": 2},
+    "74": {"hg": 4, "ag": 0},
+    "75": {"hg": 1, "ag": 1, "penWinner": "Países Baixos"},
+    "76": {"hg": 2, "ag": 1},
+    "77": {"hg": 3, "ag": 0},
+    "78": {"hg": 1, "ag": 2},
+    "79": {"hg": 2, "ag": 1},
+    "80": {"hg": 2, "ag": 0},
+    "81": {"hg": 2, "ag": 1},
+    "82": {"hg": 1, "ag": 2},
+    "83": {"hg": 2, "ag": 1},
+    "84": {"hg": 2, "ag": 0},
+    "85": {"hg": 1, "ag": 0},
+    "86": {"hg": 3, "ag": 0},
+    "87": {"hg": 1, "ag": 1, "penWinner": "Colômbia"},
+    "88": {"hg": 0, "ag": 2}
+  }
+});
+Object.assign(data.koPreds, {
+  "Aninha": {
+    "73": {"hg": 0, "ag": 1},
+    "74": {"hg": 3, "ag": 0},
+    "75": {"hg": 1, "ag": 2},
+    "76": {"hg": 1, "ag": 0},
+    "77": {"hg": 2, "ag": 1},
+    "78": {"hg": 2, "ag": 1},
+    "79": {"hg": 1, "ag": 0},
+    "80": {"hg": 3, "ag": 0},
+    "81": {"hg": 2, "ag": 1},
+    "82": {"hg": 2, "ag": 0},
+    "83": {"hg": 1, "ag": 2},
+    "84": {"hg": 3, "ag": 1},
+    "85": {"hg": 2, "ag": 1},
+    "86": {"hg": 2, "ag": 0},
+    "87": {"hg": 0, "ag": 1},
+    "88": {"hg": 2, "ag": 1}
+  },
+  "Flo": {
+    "73": {"hg": 1, "ag": 2},
+    "74": {"hg": 2, "ag": 0},
+    "75": {"hg": 3, "ag": 0},
+    "76": {"hg": 2, "ag": 1},
+    "77": {"hg": 2, "ag": 2, "penWinner": "França"},
+    "78": {"hg": 2, "ag": 0},
+    "79": {"hg": 3, "ag": 1},
+    "80": {"hg": 2, "ag": 0},
+    "81": {"hg": 0, "ag": 1},
+    "82": {"hg": 1, "ag": 1, "penWinner": "Senegal"},
+    "83": {"hg": 0, "ag": 2},
+    "84": {"hg": 3, "ag": 0},
+    "85": {"hg": 0, "ag": 1},
+    "86": {"hg": 2, "ag": 1},
+    "87": {"hg": 0, "ag": 2},
+    "88": {"hg": 1, "ag": 2}
+  }
+});
+/* Alcino: parcial — só enviou o J73 até agora, demais virão depois. */
+Object.assign(data.koPreds, {
+  "Alcino": {
+    "73": {"hg": 1, "ag": 2}
+  }
+});
+Object.assign(data.koPreds, {
+  "M. Alice": {
+    "73": {"hg": 1, "ag": 2},
+    "74": {"hg": 3, "ag": 0},
+    "75": {"hg": 2, "ag": 2, "penWinner": "Países Baixos"},
+    "76": {"hg": 2, "ag": 0},
+    "77": {"hg": 3, "ag": 1},
+    "78": {"hg": 2, "ag": 3},
+    "79": {"hg": 1, "ag": 0},
+    "80": {"hg": 2, "ag": 0},
+    "81": {"hg": 3, "ag": 1},
+    "82": {"hg": 1, "ag": 1, "penWinner": "Senegal"},
+    "83": {"hg": 2, "ag": 1},
+    "84": {"hg": 2, "ag": 0},
+    "85": {"hg": 0, "ag": 0, "penWinner": "Suíça"},
+    "86": {"hg": 4, "ag": 0},
+    "87": {"hg": 0, "ag": 0, "penWinner": "Colômbia"},
+    "88": {"hg": 1, "ag": 0}
+  }
+});
+/* Bia */
+Object.assign(data.koPreds, {
+  "Bia": {
+    "73": {"hg": 1, "ag": 2},
+    "74": {"hg": 3, "ag": 0},
+    "75": {"hg": 1, "ag": 2},
+    "76": {"hg": 2, "ag": 1},
+    "77": {"hg": 3, "ag": 1},
+    "78": {"hg": 1, "ag": 3},
+    "79": {"hg": 2, "ag": 1},
+    "80": {"hg": 3, "ag": 0},
+    "81": {"hg": 2, "ag": 0},
+    "82": {"hg": 1, "ag": 1, "penWinner": "Senegal"},
+    "83": {"hg": 2, "ag": 1},
+    "84": {"hg": 3, "ag": 0},
+    "85": {"hg": 1, "ag": 2},
+    "86": {"hg": 3, "ag": 0},
+    "87": {"hg": 2, "ag": 0},
+    "88": {"hg": 0, "ag": 1}
+  }
+});
+Object.assign(data.koPreds, {
+  "Clara": {
+    "73": {"hg": 1, "ag": 1, "penWinner": "Canadá"},
+    "74": {"hg": 1, "ag": 0},
+    "75": {"hg": 2, "ag": 1},
+    "76": {"hg": 2, "ag": 1},
+    "77": {"hg": 3, "ag": 1},
+    "78": {"hg": 1, "ag": 0},
+    "79": {"hg": 0, "ag": 1},
+    "80": {"hg": 1, "ag": 0},
+    "81": {"hg": 2, "ag": 1},
+    "82": {"hg": 1, "ag": 1, "penWinner": "Senegal"},
+    "83": {"hg": 2, "ag": 0},
+    "84": {"hg": 2, "ag": 0},
+    "85": {"hg": 1, "ag": 0},
+    "86": {"hg": 0, "ag": 0, "penWinner": "Argentina"},
+    "87": {"hg": 2, "ag": 0},
+    "88": {"hg": 0, "ag": 1}
+  }
+});
+Object.assign(data.koPreds, {
+  "Bel": {
+    "73": {"hg": 1, "ag": 0},
+    "74": {"hg": 2, "ag": 0},
+    "75": {"hg": 2, "ag": 1},
+    "76": {"hg": 2, "ag": 0},
+    "77": {"hg": 3, "ag": 1},
+    "78": {"hg": 0, "ag": 1},
+    "79": {"hg": 2, "ag": 1},
+    "80": {"hg": 3, "ag": 0},
+    "81": {"hg": 3, "ag": 1},
+    "82": {"hg": 1, "ag": 0},
+    "83": {"hg": 3, "ag": 1},
+    "84": {"hg": 3, "ag": 1},
+    "85": {"hg": 1, "ag": 0},
+    "86": {"hg": 2, "ag": 0},
+    "87": {"hg": 2, "ag": 1},
+    "88": {"hg": 0, "ag": 1}
+  }
+});
+
 /* Preenche automaticamente os confrontos dos 16-avos conforme os grupos
    encerram: o 1º e o 2º de cada grupo completo entram nos slots "1ºX"/"2ºX".
    Os slots de 3º colocado (8 melhores terceiros) só são definidos
@@ -993,17 +1229,49 @@ function koFlag(team){return team&&teamCode[team]?fl(team):'<span class="fl fl-t
 function koSide(g,side){const team=side==='h'?g.h:g.a;const slot=side==='h'?g.hSlot:g.aSlot;return {team,label:team?nm(team):(slot||'A definir')};}
 function koDateLabel(g){if(g.date){const p=parseDate(g.date);return p.d+' '+MES[p.mo-1]+' · '+p.dow;}return 'A definir';}
 
+function koPredWinner(g,b){
+  if(!b||b.hg==null||b.ag==null) return null;
+  if(b.hg>b.ag) return {team:g.h,pens:false};
+  if(b.ag>b.hg) return {team:g.a,pens:false};
+  return b.penWinner?{team:b.penWinner,pens:true}:null;
+}
 function koMatchHTML(g){
   const H=koSide(g,'h'),A=koSide(g,'a');
   const wins=koHasResult(g),hw=wins&&g.rhg>g.rag,aw=wins&&g.rag>g.rhg;
-  return '<div class="match komatch" data-n="'+g.n+'">'
-    +'<div class="match-top" style="cursor:default">'
-    +'<div class="match-meta">'+(g.date?('<div class="dt">'+koDateLabel(g)+'</div><div class="tm">'+(g.time||'')+'</div>'):'')+'<div class="gno">JOGO <b>'+g.n+'</b></div></div>'
-    +'<div class="teams">'
+  const hasPicks=Object.values(data.koPreds||{}).some(o=>o&&o[g.n]);
+  const meta='<div class="match-meta">'+(g.date?('<div class="dt">'+koDateLabel(g)+'</div><div class="tm">'+(g.time||'')+'</div>'):'')+'<div class="gno">JOGO <b>'+g.n+'</b></div></div>';
+  const teams='<div class="teams">'
     +'<div class="tline '+(hw?'win':'')+'">'+koFlag(H.team)+'<span class="nm '+(H.team?'':'tbd')+'">'+H.label+'</span><span class="sc">'+(wins?g.rhg:'–')+'</span></div>'
     +'<div class="tline '+(aw?'win':'')+'">'+koFlag(A.team)+'<span class="nm '+(A.team?'':'tbd')+'">'+A.label+'</span><span class="sc">'+(wins?g.rag:'–')+'</span></div>'
-    +'</div></div></div>';
+    +'</div>';
+  if(hasPicks){
+    return '<div class="match komatch" data-n="'+g.n+'">'
+      +'<div class="match-top" onclick="toggleKoMatch(this)">'+meta+teams+'<div class="match-chev">▾</div></div>'
+      +'<div class="bets" data-loaded="0"></div></div>';
+  }
+  return '<div class="match komatch" data-n="'+g.n+'">'
+    +'<div class="match-top" style="cursor:default">'+meta+teams+'</div></div>';
 }
+function loadKoBets(m){
+  const bets=m.querySelector('.bets');
+  if(bets.dataset.loaded!=='0') return;
+  const n=+m.dataset.n;
+  const g=data.koGames.find(x=>x.n===n);
+  const preds=data.koPreds||{};
+  const people=PT_MM_AZ.filter(p=>preds[p]&&preds[p][n]);
+  const rows=people.map(p=>{
+    const b=preds[p][n];
+    const w=koPredWinner(g,b);
+    const adv=w&&w.team
+      ? '<span class="betadv">'+koFlag(w.team)+nm(w.team)+(w.pens?'<span class="kpen"> (pên)</span>':'')+'</span>'
+      : '';
+    return '<div class="bet"><span class="who">'+p+'</span><span class="gss">'+esc(b.hg)+' <span style="color:var(--faint)">x</span> '+esc(b.ag)+'</span>'+adv+'</div>';
+  }).join('');
+  const body=people.length?rows:'<div class="koempty">Ninguém palpitou este jogo ainda.</div>';
+  bets.innerHTML='<div class="bhdr"><span>Quem passa · '+people.length+'</span><span>'+(g.h||'?')+' x '+(g.a||'?')+'</span></div>'+body;
+  bets.dataset.loaded='1';
+}
+function toggleKoMatch(top){ const m=top.parentElement; loadKoBets(m); m.classList.toggle('open'); }
 function mmInfoNote(){
   return '';
 }
@@ -1150,11 +1418,15 @@ function heroHTML(p,meta,isKoOnly){
 function koPalpiteRow(g,b){
   const H=koSide(g,'h'),A=koSide(g,'a');
   const sc=b?(esc(b.hg)+' x '+esc(b.ag)):'— x —';
-  return '<div class="prow"><div class="pmatch">'
+  const w=b?koPredWinner(g,b):null;
+  const adv=w&&w.team
+    ? '<div class="koadv"><span class="kal">passa</span>'+koFlag(w.team)+'<span class="kan">'+nm(w.team)+'</span>'+(w.pens?'<span class="kpen">pênaltis</span>':'')+'</div>'
+    : '';
+  return '<div class="prow'+(adv?' koprow':'')+'"><div class="pmatch">'
     +'<span class="pt1 '+(H.team?'':'mut')+'">'+H.label+'</span>'+koFlag(H.team)
     +'<span class="psc">'+sc+'</span>'
     +koFlag(A.team)+'<span class="pt2 '+(A.team?'':'mut')+'">'+A.label+'</span>'
-    +'</div></div>';
+    +'</div>'+adv+'</div>';
 }
 function koPalpitesHTML(p){
   const koPr=(data.koPreds||{})[p]||{};
