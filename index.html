@@ -303,6 +303,10 @@ main{padding:14px 14px 0}
 .bet .betadv{flex:none;display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--pitch-d)}
 .bet .betadv .fl{width:19px;height:14px;border-radius:3px;flex:none;object-fit:cover;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
 .bet .betadv .kpen{font-size:9px;font-weight:800;color:var(--gold-d)}
+.bet .tag.tadv{background:var(--pitch-d);color:#fff}
+.bet .betadv.advok{color:var(--pitch-d);font-weight:800}
+.bet .betadv.advok .fl{box-shadow:0 0 0 2px var(--pitch)}
+.bet .betadv.advno{opacity:.5;text-decoration:line-through}
 .koempty{font-size:12.5px;color:var(--muted);padding:8px 2px}
 .novato{font-family:Inter;font-size:9.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;
   color:var(--pitch-d);background:var(--pitch-soft);border:1px solid #CFE3D6;border-radius:999px;padding:2px 7px;vertical-align:middle}
@@ -408,8 +412,8 @@ main{padding:14px 14px 0}
   <section class="view" id="view-ranking">
     <div class="seg seg3" id="rankScope">
       <button data-scope="consolidado">Consolidado</button>
-      <button data-scope="mm">Mata-Mata</button>
-      <button data-scope="grupos" class="on">Fase de Grupos</button>
+      <button data-scope="mm" class="on">Mata-Mata</button>
+      <button data-scope="grupos">Fase de Grupos</button>
     </div>
     <div class="seg seg3" id="rankMode">
       <button data-metric="geral" class="on">🏆 Geral</button>
@@ -905,10 +909,10 @@ function renderPerson(){
 /* MATA-MATA (knockout) - estrutura, dados e renderizacao                */
 /* ===================================================================== */
 var mmMode='dia';
-var rankScope='grupos';
+var rankScope='mm';
 
 /* participantes que entram SO no mata-mata */
-data.koParticipants = data.koParticipants || ["Joca", "Aninha"];
+data.koParticipants = data.koParticipants || ["Joca", "Aninha", "Tuco", "Pan"];
 data.meta = data.meta || {};
 data.meta["Joca"] = data.meta["Joca"] || {"full":"Joca Fustaino"};
 const PT_MM = PT.concat(data.koParticipants);
@@ -1182,6 +1186,47 @@ Object.assign(data.koPreds, {
     "88": {"hg": 0, "ag": 1}
   }
 });
+Object.assign(data.koPreds, {
+  "Cami": {
+    "73": {"hg": 1, "ag": 0},
+    "74": {"hg": 3, "ag": 0},
+    "75": {"hg": 2, "ag": 1},
+    "76": {"hg": 1, "ag": 0},
+    "77": {"hg": 3, "ag": 1},
+    "78": {"hg": 0, "ag": 1},
+    "79": {"hg": 2, "ag": 0},
+    "80": {"hg": 3, "ag": 0},
+    "81": {"hg": 3, "ag": 0},
+    "82": {"hg": 1, "ag": 0},
+    "83": {"hg": 3, "ag": 1},
+    "84": {"hg": 3, "ag": 1},
+    "85": {"hg": 1, "ag": 0},
+    "86": {"hg": 4, "ag": 0},
+    "87": {"hg": 2, "ag": 1},
+    "88": {"hg": 0, "ag": 1}
+  }
+});
+/* Parciais — só enviaram o J73 até agora; demais virão depois. */
+Object.assign(data.koPreds, {
+  "Joaquim": {
+    "73": {"hg": 0, "ag": 2},
+    "74": {"hg": 3, "ag": 0},   // Alemanha 3 x 0 Paraguai
+    "75": {"hg": 2, "ag": 1},   // Países Baixos 2 x 1 Marrocos
+    "76": {"hg": 2, "ag": 1}    // Brasil 2 x 1 Japão
+  },
+  "Tuco": {
+    "73": {"hg": 1, "ag": 2},
+    "74": {"hg": 2, "ag": 0},   // Alemanha 2 x 0 Paraguai
+    "75": {"hg": 1, "ag": 2},   // Países Baixos 1 x 2 Marrocos
+    "76": {"hg": 2, "ag": 0}    // Brasil 2 x 0 Japão
+  },
+  "Pan": {
+    "73": {"hg": 0, "ag": 2},
+    "74": {"hg": 3, "ag": 0},   // Alemanha 3 x 0 Paraguai
+    "75": {"hg": 1, "ag": 2},   // Países Baixos 1 x 2 Marrocos
+    "76": {"hg": 2, "ag": 0}    // Brasil 2 x 0 Japão
+  }
+});
 
 /* Preenche automaticamente os confrontos dos 16-avos conforme os grupos
    encerram: o 1º e o 2º de cada grupo completo entram nos slots "1ºX"/"2ºX".
@@ -1223,7 +1268,28 @@ Object.assign(data.koPreds, {
   });
 })();
 
+/* ---- Resultados reais do mata-mata (16-avos em diante) ----
+   Mapa: número do jogo -> [gols mandante, gols visitante] ou
+         [gols mandante, gols visitante, "Time que venceu nos pênaltis"]
+         (o 3º item só é necessário quando o jogo terminou empatado). */
+(function applyKoResults(){
+  const KO_RESULTS = {
+    73: [0, 1]   // 28/06 — África do Sul 0 x 1 Canadá
+  };
+  data.koGames.forEach(g=>{
+    const r = KO_RESULTS[g.n];
+    if(r){ g.rhg = r[0]; g.rag = r[1]; if(r[2]) g.realPenWinner = r[2]; }
+  });
+})();
+
 function koHasResult(g){return g.rhg!=null&&g.rag!=null;}
+/* time que efetivamente avançou (vencedor no tempo normal ou nos pênaltis) */
+function koRealWinner(g){
+  if(!koHasResult(g)) return null;
+  if(g.rhg>g.rag) return g.h;
+  if(g.rag>g.rhg) return g.a;
+  return g.realPenWinner||null;
+}
 const ANY_KO_RESULT = data.koGames.some(koHasResult);
 function koFlag(team){return team&&teamCode[team]?fl(team):'<span class="fl fl-tbd">?</span>';}
 function koSide(g,side){const team=side==='h'?g.h:g.a;const slot=side==='h'?g.hSlot:g.aSlot;return {team,label:team?nm(team):(slot||'A definir')};}
@@ -1258,17 +1324,33 @@ function loadKoBets(m){
   const n=+m.dataset.n;
   const g=data.koGames.find(x=>x.n===n);
   const preds=data.koPreds||{};
+  const played=koHasResult(g);
+  const realW=played?koRealWinner(g):null;
   const people=PT_MM_AZ.filter(p=>preds[p]&&preds[p][n]);
   const rows=people.map(p=>{
     const b=preds[p][n];
     const w=koPredWinner(g,b);
+    let cls='', placarTag='', advTag='', advState='';
+    if(played){
+      const r=evalBet(g,b.hg,b.ag);
+      cls=r==='mosca'?'mosca':(r==='formiga'?'formiga':'miss');
+      placarTag=r==='mosca'?'<span class="tag">🪰 +3</span>':(r==='formiga'?'<span class="tag">🐜 +1</span>':'');
+      if(w&&w.team&&realW){
+        if(w.team===realW){ advState='advok'; advTag='<span class="tag tadv">➡️ +1</span>'; }
+        else { advState='advno'; }
+      }
+    }
     const adv=w&&w.team
-      ? '<span class="betadv">'+koFlag(w.team)+nm(w.team)+(w.pens?'<span class="kpen"> (pên)</span>':'')+'</span>'
+      ? '<span class="betadv '+advState+'">'+koFlag(w.team)+nm(w.team)+(w.pens?'<span class="kpen"> (pên)</span>':'')+'</span>'
       : '';
-    return '<div class="bet"><span class="who">'+p+'</span><span class="gss">'+esc(b.hg)+' <span style="color:var(--faint)">x</span> '+esc(b.ag)+'</span>'+adv+'</div>';
+    return '<div class="bet '+cls+'"><span class="who">'+p+'</span><span class="gss">'+esc(b.hg)+' <span style="color:var(--faint)">x</span> '+esc(b.ag)+'</span>'+placarTag+advTag+adv+'</div>';
   }).join('');
   const body=people.length?rows:'<div class="koempty">Ninguém palpitou este jogo ainda.</div>';
-  bets.innerHTML='<div class="bhdr"><span>Quem passa · '+people.length+'</span><span>'+(g.h||'?')+' x '+(g.a||'?')+'</span></div>'+body;
+  const hdrRight=played
+    ? (g.h||'?')+' '+g.rhg+' x '+g.rag+' '+(g.a||'?')+(realW&&g.rhg===g.rag?' (pên: '+nm(realW)+')':'')
+    : (g.h||'?')+' x '+(g.a||'?');
+  const hdrLeft=played?('Resultado · passou '+(realW?nm(realW):'—')):('Quem passa · '+people.length);
+  bets.innerHTML='<div class="bhdr"><span>'+hdrLeft+'</span><span>'+hdrRight+'</span></div>'+body;
   bets.dataset.loaded='1';
 }
 function toggleKoMatch(top){ const m=top.parentElement; loadKoBets(m); m.classList.toggle('open'); }
@@ -1370,7 +1452,23 @@ function renderMMJogos(){
 /* ---- pontuacao por escopo ---- */
 function emptyScore(p){return {p,moscas:0,formigas:0,ptsPlacar:0,ptsClassif:0,ptsCampeao:0,ptsArtilheiro:0,total:0};}
 function groupScoreOf(p){return SCORES[p]||emptyScore(p);}
-function koScoreOf(p){const r=data.koRanking[p]||{};return {p,moscas:r.moscas||0,formigas:r.formigas||0,ptsPlacar:r.ptsPlacar||0,ptsClassif:r.ptsClassif||0,ptsCampeao:r.ptsCampeao||0,ptsArtilheiro:r.ptsArtilheiro||0,total:r.total||0};}
+function koScoreOf(p){
+  // Pontuação do mata-mata calculada AO VIVO a partir de data.koPreds vs resultados.
+  // Regra: mosca (placar exato)=3, formiga (tendência)=1 — não somam entre si.
+  //        +1 "quem avança" (acertar o time que se classifica) soma a qualquer um.
+  const mine=(data.koPreds||{})[p]||{};
+  let moscas=0,formigas=0,ptsPlacar=0,ptsClassif=0;
+  data.koGames.forEach(g=>{
+    if(!koHasResult(g)) return;
+    const b=mine[g.n]; if(!b||b.hg==null||b.ag==null) return;
+    const r=evalBet(g,b.hg,b.ag);
+    if(r==='mosca'){moscas++;ptsPlacar+=3;}
+    else if(r==='formiga'){formigas++;ptsPlacar+=1;}
+    const w=koPredWinner(g,b), rw=koRealWinner(g);
+    if(w&&w.team&&rw&&w.team===rw) ptsClassif+=1; // bônus "quem avança"
+  });
+  return {p,moscas,formigas,ptsPlacar,ptsClassif,ptsCampeao:0,ptsArtilheiro:0,total:ptsPlacar+ptsClassif};
+}
 function addScore(a,b){return {p:a.p,moscas:a.moscas+b.moscas,formigas:a.formigas+b.formigas,ptsPlacar:a.ptsPlacar+b.ptsPlacar,ptsClassif:a.ptsClassif+b.ptsClassif,ptsCampeao:a.ptsCampeao+b.ptsCampeao,ptsArtilheiro:a.ptsArtilheiro+b.ptsArtilheiro,total:a.total+b.total};}
 function scoresForScope(scope){
   if(scope==='grupos') return PT.map(groupScoreOf);
