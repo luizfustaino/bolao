@@ -1274,7 +1274,10 @@ Object.assign(data.koPreds, {
          (o 3º item só é necessário quando o jogo terminou empatado). */
 (function applyKoResults(){
   const KO_RESULTS = {
-    73: [0, 1]   // 28/06 — África do Sul 0 x 1 Canadá
+    73: [0, 1],              // 28/06 — África do Sul 0 x 1 Canadá
+    74: [1, 1, "Paraguai"],  // 29/06 — Alemanha 1 x 1 Paraguai (pên 3x4 — passa Paraguai)
+    75: [1, 1, "Marrocos"],  // 29/06 — Países Baixos 1 x 1 Marrocos (pên 2x3 — passa Marrocos)
+    76: [2, 1]               // 29/06 — Brasil 2 x 1 Japão
   };
   data.koGames.forEach(g=>{
     const r = KO_RESULTS[g.n];
@@ -1291,6 +1294,32 @@ function koRealWinner(g){
   return g.realPenWinner||null;
 }
 const ANY_KO_RESULT = data.koGames.some(koHasResult);
+/* time que perdeu (usado na disputa de 3º lugar) */
+function koRealLoser(g){
+  if(!koHasResult(g)) return null;
+  if(g.rhg>g.rag) return g.a;
+  if(g.rag>g.rhg) return g.h;
+  if(!g.realPenWinner) return null;
+  return g.realPenWinner===g.h ? g.a : g.h;
+}
+/* Propaga automaticamente os classificados para a fase seguinte do chaveamento.
+   Roda em ordem crescente de jogo, então cascateia 16-avos -> oitavas -> ... -> final
+   a cada resultado lançado. Na disputa de 3º lugar avança o perdedor das semis. */
+(function propagateKO(){
+  const byNum={}; data.koGames.forEach(g=>byNum[g.n]=g);
+  data.koGames.forEach(g=>{
+    if(g.feedH!=null && g.h==null){
+      const src=byNum[g.feedH];
+      const t=src ? (g.feedType==='P'?koRealLoser(src):koRealWinner(src)) : null;
+      if(t) g.h=t;
+    }
+    if(g.feedA!=null && g.a==null){
+      const src=byNum[g.feedA];
+      const t=src ? (g.feedType==='P'?koRealLoser(src):koRealWinner(src)) : null;
+      if(t) g.a=t;
+    }
+  });
+})();
 function koFlag(team){return team&&teamCode[team]?fl(team):'<span class="fl fl-tbd">?</span>';}
 function koSide(g,side){const team=side==='h'?g.h:g.a;const slot=side==='h'?g.hSlot:g.aSlot;return {team,label:team?nm(team):(slot||'A definir')};}
 function koDateLabel(g){if(g.date){const p=parseDate(g.date);return p.d+' '+MES[p.mo-1]+' · '+p.dow;}return 'A definir';}
