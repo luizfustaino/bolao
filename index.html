@@ -123,6 +123,8 @@ main{padding:14px 14px 0}
 .tline .sc{font-family:Anton,sans-serif;font-size:18px;min-width:18px;text-align:center;color:var(--faint)}
 .tline.win .nm{font-weight:700}
 .tline.win .sc{color:var(--ink)}
+.tline .sc .pen{font-family:'DM Sans',system-ui,sans-serif;font-size:11px;font-weight:700;color:var(--faint);vertical-align:middle}
+.tline.win .sc .pen{color:var(--sienna)}
 .match-chev{flex:none;width:30px;text-align:center;color:var(--faint);transition:.2s}
 .match.open .match-chev{transform:rotate(180deg);color:var(--gold-d)}
 .vs-sep{height:1px;background:var(--line);margin:0 12px}
@@ -1278,19 +1280,29 @@ Object.assign(data.koPreds, {
 })();
 
 /* ---- Resultados reais do mata-mata (16-avos em diante) ----
-   Mapa: número do jogo -> [gols mandante, gols visitante] ou
-         [gols mandante, gols visitante, "Time que venceu nos pênaltis"]
-         (o 3º item só é necessário quando o jogo terminou empatado). */
+   Mapa: número do jogo -> [gols mandante, gols visitante] ou, quando o jogo
+   terminou empatado e foi para os pênaltis,
+         [gols mandante, gols visitante, pênaltis mandante, pênaltis visitante].
+   O vencedor dos pênaltis (quem avança) é deduzido do placar das penalidades. */
 (function applyKoResults(){
   const KO_RESULTS = {
-    73: [0, 1],              // 28/06 — África do Sul 0 x 1 Canadá
-    74: [1, 1, "Paraguai"],  // 29/06 — Alemanha 1 x 1 Paraguai (pên 3x4 — passa Paraguai)
-    75: [1, 1, "Marrocos"],  // 29/06 — Países Baixos 1 x 1 Marrocos (pên 2x3 — passa Marrocos)
-    76: [2, 1]               // 29/06 — Brasil 2 x 1 Japão
-  };
-  data.koGames.forEach(g=>{
+    73: [0, 1],            // 28/06 — África do Sul 0 x 1 Canadá
+    74: [1, 1, 3, 4],      // 29/06 — Alemanha 1 (3) x 1 (4) Paraguai — passa Paraguai
+    75: [1, 1, 2, 3],      // 29/06 — Países Baixos 1 (2) x 1 (3) Marrocos — passa Marrocos
+    76: [2, 1],            // 29/06 — Brasil 2 x 1 Japão
+    77: [3, 0],            // 30/06 — França 3 x 0 Suécia
+    78: [1, 2],            // 30/06 — Costa do Marfim 1 x 2 Noruega
+    79: [2, 0]             // 30/06 — México 2 x 0 Equador
+  };  data.koGames.forEach(g=>{
     const r = KO_RESULTS[g.n];
-    if(r){ g.rhg = r[0]; g.rag = r[1]; if(r[2]) g.realPenWinner = r[2]; }
+    if(!r) return;
+    g.rhg = r[0]; g.rag = r[1];
+    if(r.length>=4){                     // empate decidido nos pênaltis
+      g.rpenH = r[2]; g.rpenA = r[3];
+      g.realPenWinner = r[2] > r[3] ? g.h : g.a;
+    } else if(typeof r[2] === 'string'){  // (compat.) vencedor informado por nome
+      g.realPenWinner = r[2];
+    }
   });
 })();
 
@@ -1342,11 +1354,15 @@ function koPredWinner(g,b){
 function koMatchHTML(g){
   const H=koSide(g,'h'),A=koSide(g,'a');
   const wins=koHasResult(g),hw=wins&&g.rhg>g.rag,aw=wins&&g.rag>g.rhg;
+  const pen=wins&&g.rhg===g.rag&&g.rpenH!=null;
+  const pw=pen&&g.rpenH>g.rpenA, pwA=pen&&g.rpenA>g.rpenH;
+  const hsc=wins?(g.rhg+(pen?' <span class="pen">('+g.rpenH+')</span>':'')):'–';
+  const asc=wins?(g.rag+(pen?' <span class="pen">('+g.rpenA+')</span>':'')):'–';
   const hasPicks=Object.values(data.koPreds||{}).some(o=>o&&o[g.n]);
   const meta='<div class="match-meta">'+(g.date?('<div class="dt">'+koDateLabel(g)+'</div><div class="tm">'+(g.time||'')+'</div>'):'')+'<div class="gno">JOGO <b>'+g.n+'</b></div></div>';
   const teams='<div class="teams">'
-    +'<div class="tline '+(hw?'win':'')+'">'+koFlag(H.team)+'<span class="nm '+(H.team?'':'tbd')+'">'+H.label+'</span><span class="sc">'+(wins?g.rhg:'–')+'</span></div>'
-    +'<div class="tline '+(aw?'win':'')+'">'+koFlag(A.team)+'<span class="nm '+(A.team?'':'tbd')+'">'+A.label+'</span><span class="sc">'+(wins?g.rag:'–')+'</span></div>'
+    +'<div class="tline '+(hw||pw?'win':'')+'">'+koFlag(H.team)+'<span class="nm '+(H.team?'':'tbd')+'">'+H.label+'</span><span class="sc">'+hsc+'</span></div>'
+    +'<div class="tline '+(aw||pwA?'win':'')+'">'+koFlag(A.team)+'<span class="nm '+(A.team?'':'tbd')+'">'+A.label+'</span><span class="sc">'+asc+'</span></div>'
     +'</div>';
   if(hasPicks){
     return '<div class="match komatch" data-n="'+g.n+'">'
@@ -1379,13 +1395,14 @@ function loadKoBets(m){
       }
     }
     const adv=w&&w.team
-      ? '<span class="betadv '+advState+'">'+koFlag(w.team)+nm(w.team)+(w.pens?'<span class="kpen"> (pên)</span>':'')+'</span>'
+      ? '<span class="betadv '+advState+'">'+koFlag(w.team)+'</span>'
       : '';
     return '<div class="bet '+cls+'"><span class="who">'+p+'</span><span class="gss">'+esc(b.hg)+' <span style="color:var(--faint)">x</span> '+esc(b.ag)+'</span>'+placarTag+advTag+adv+'</div>';
   }).join('');
   const body=people.length?rows:'<div class="koempty">Ninguém palpitou este jogo ainda.</div>';
+  const penStr=(played&&g.rhg===g.rag&&g.rpenH!=null)?' ('+g.rpenH+'-'+g.rpenA+' pên)':'';
   const hdrRight=played
-    ? (g.h||'?')+' '+g.rhg+' x '+g.rag+' '+(g.a||'?')+(realW&&g.rhg===g.rag?' (pên: '+nm(realW)+')':'')
+    ? (g.h||'?')+' '+g.rhg+' x '+g.rag+' '+(g.a||'?')+penStr
     : (g.h||'?')+' x '+(g.a||'?');
   const hdrLeft=played?('Resultado · passou '+(realW?nm(realW):'—')):('Quem passa · '+people.length);
   bets.innerHTML='<div class="bhdr"><span>'+hdrLeft+'</span><span>'+hdrRight+'</span></div>'+body;
