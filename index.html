@@ -1217,7 +1217,10 @@ Object.assign(data.koPreds, {
     "76": {"hg": 2, "ag": 1},   // Brasil 2 x 1 Japão
     "77": {"hg": 3, "ag": 1},   // França 3 x 1 Suécia
     "78": {"hg": 2, "ag": 2, "penWinner": "Noruega"},  // C. Marfim 2 x 2 Noruega (pên)
-    "79": {"hg": 1, "ag": 1, "penWinner": "Equador"}   // México 1 x 1 Equador (pên)
+    "79": {"hg": 1, "ag": 1, "penWinner": "Equador"},  // México 1 x 1 Equador (pên)
+    "80": {"hg": 3, "ag": 0},   // Inglaterra 3 x 0 RD Congo
+    "81": {"hg": 2, "ag": 1},   // EUA 2 x 1 Bósnia
+    "82": {"hg": 1, "ag": 2}    // Bélgica 1 x 2 Senegal
   },
   "Tuco": {
     "73": {"hg": 1, "ag": 2},
@@ -1226,7 +1229,10 @@ Object.assign(data.koPreds, {
     "76": {"hg": 2, "ag": 0},   // Brasil 2 x 0 Japão
     "77": {"hg": 3, "ag": 1},   // França 3 x 1 Suécia
     "78": {"hg": 1, "ag": 2},   // C. Marfim 1 x 2 Noruega
-    "79": {"hg": 2, "ag": 1}    // México 2 x 1 Equador
+    "79": {"hg": 2, "ag": 1},   // México 2 x 1 Equador
+    "80": {"hg": 2, "ag": 1},   // Inglaterra 2 x 1 RD Congo
+    "81": {"hg": 2, "ag": 1},   // EUA 2 x 1 Bósnia
+    "82": {"hg": 2, "ag": 1}    // Bélgica 2 x 1 Senegal
   },
   "Pan": {
     "73": {"hg": 0, "ag": 2},
@@ -1235,7 +1241,10 @@ Object.assign(data.koPreds, {
     "76": {"hg": 2, "ag": 0},   // Brasil 2 x 0 Japão
     "77": {"hg": 3, "ag": 0},   // França 3 x 0 Suécia
     "78": {"hg": 0, "ag": 2},   // C. Marfim 0 x 2 Noruega
-    "79": {"hg": 2, "ag": 1}    // México 2 x 1 Equador
+    "79": {"hg": 2, "ag": 1},   // México 2 x 1 Equador
+    "80": {"hg": 3, "ag": 0},   // Inglaterra 3 x 0 RD Congo
+    "81": {"hg": 2, "ag": 0},   // EUA 2 x 0 Bósnia
+    "82": {"hg": 2, "ag": 1}    // Bélgica 2 x 1 Senegal
   }
 });
 
@@ -1292,7 +1301,10 @@ Object.assign(data.koPreds, {
     76: [2, 1],            // 29/06 — Brasil 2 x 1 Japão
     77: [3, 0],            // 30/06 — França 3 x 0 Suécia
     78: [1, 2],            // 30/06 — Costa do Marfim 1 x 2 Noruega
-    79: [2, 0]             // 30/06 — México 2 x 0 Equador
+    79: [2, 0],            // 30/06 — México 2 x 0 Equador
+    80: [2, 1],            // Inglaterra 2 x 1 RD Congo
+    81: [2, 0],            // EUA 2 x 0 Bósnia
+    82: [3, 2]             // Bélgica 3 x 2 Senegal
   };  data.koGames.forEach(g=>{
     const r = KO_RESULTS[g.n];
     if(!r) return;
