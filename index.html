@@ -914,7 +914,7 @@ var mmMode='dia';
 var rankScope='mm';
 
 /* participantes que entram SO no mata-mata */
-data.koParticipants = data.koParticipants || ["Joca", "Aninha", "Tuco", "Pan"];
+data.koParticipants = data.koParticipants || ["Joca", "Aninha", "Tuco", "Pan", "Ga"];
 data.meta = data.meta || {};
 data.meta["Joca"] = data.meta["Joca"] || {"full":"Joca Fustaino"};
 const PT_MM = PT.concat(data.koParticipants);
@@ -1220,7 +1220,13 @@ Object.assign(data.koPreds, {
     "79": {"hg": 1, "ag": 1, "penWinner": "Equador"},  // México 1 x 1 Equador (pên)
     "80": {"hg": 3, "ag": 0},   // Inglaterra 3 x 0 RD Congo
     "81": {"hg": 2, "ag": 1},   // EUA 2 x 1 Bósnia
-    "82": {"hg": 1, "ag": 2}    // Bélgica 1 x 2 Senegal
+    "82": {"hg": 1, "ag": 2},   // Bélgica 1 x 2 Senegal
+    "83": {"hg": 2, "ag": 2, "penWinner": "Portugal"},  // Portugal 2 x 2 Croácia (pên)
+    "84": {"hg": 3, "ag": 0},   // Espanha 3 x 0 Áustria
+    "85": {"hg": 2, "ag": 0},   // Suíça 2 x 0 Argélia
+    "86": {"hg": 2, "ag": 0},   // Argentina 2 x 0 Cabo Verde
+    "87": {"hg": 2, "ag": 1},   // Colômbia 2 x 1 Gana
+    "88": {"hg": 0, "ag": 2}    // Austrália 0 x 2 Egito
   },
   "Tuco": {
     "73": {"hg": 1, "ag": 2},
@@ -1232,7 +1238,13 @@ Object.assign(data.koPreds, {
     "79": {"hg": 2, "ag": 1},   // México 2 x 1 Equador
     "80": {"hg": 2, "ag": 1},   // Inglaterra 2 x 1 RD Congo
     "81": {"hg": 2, "ag": 1},   // EUA 2 x 1 Bósnia
-    "82": {"hg": 2, "ag": 1}    // Bélgica 2 x 1 Senegal
+    "82": {"hg": 2, "ag": 1},   // Bélgica 2 x 1 Senegal
+    "83": {"hg": 2, "ag": 1},   // Portugal 2 x 1 Croácia
+    "84": {"hg": 2, "ag": 1},   // Espanha 2 x 1 Áustria
+    "85": {"hg": 1, "ag": 1, "penWinner": "Suíça"},  // Suíça 1 x 1 Argélia (pên)
+    "86": {"hg": 2, "ag": 1},   // Argentina 2 x 1 Cabo Verde
+    "87": {"hg": 2, "ag": 1},   // Colômbia 2 x 1 Gana
+    "88": {"hg": 2, "ag": 1}    // Austrália 2 x 1 Egito
   },
   "Pan": {
     "73": {"hg": 0, "ag": 2},
@@ -1244,7 +1256,24 @@ Object.assign(data.koPreds, {
     "79": {"hg": 2, "ag": 1},   // México 2 x 1 Equador
     "80": {"hg": 3, "ag": 0},   // Inglaterra 3 x 0 RD Congo
     "81": {"hg": 2, "ag": 0},   // EUA 2 x 0 Bósnia
-    "82": {"hg": 2, "ag": 1}    // Bélgica 2 x 1 Senegal
+    "82": {"hg": 2, "ag": 1},   // Bélgica 2 x 1 Senegal
+    "83": {"hg": 2, "ag": 1},   // Portugal 2 x 1 Croácia
+    "84": {"hg": 3, "ag": 0},   // Espanha 3 x 0 Áustria
+    "85": {"hg": 0, "ag": 0, "penWinner": "Suíça"},  // Suíça 0 x 0 Argélia (pên)
+    "86": {"hg": 2, "ag": 0},   // Argentina 2 x 0 Cabo Verde
+    "87": {"hg": 2, "ag": 0},   // Colômbia 2 x 0 Gana
+    "88": {"hg": 2, "ag": 0}    // Austrália 2 x 0 Egito
+  }
+});
+/* Ga — novato, começou a apostar a partir dos jogos 83–88. */
+Object.assign(data.koPreds, {
+  "Ga": {
+    "83": {"hg": 2, "ag": 1},   // Portugal 2 x 1 Croácia
+    "84": {"hg": 3, "ag": 0},   // Espanha 3 x 0 Áustria
+    "85": {"hg": 0, "ag": 0, "penWinner": "Suíça"},  // Suíça 0 x 0 Argélia (pên)
+    "86": {"hg": 1, "ag": 0},   // Argentina 1 x 0 Cabo Verde
+    "87": {"hg": 1, "ag": 0},   // Colômbia 1 x 0 Gana
+    "88": {"hg": 0, "ag": 1}    // Austrália 0 x 1 Egito
   }
 });
 
@@ -1304,7 +1333,10 @@ Object.assign(data.koPreds, {
     79: [2, 0],            // 30/06 — México 2 x 0 Equador
     80: [2, 1],            // Inglaterra 2 x 1 RD Congo
     81: [2, 0],            // EUA 2 x 0 Bósnia
-    82: [3, 2]             // Bélgica 3 x 2 Senegal
+    82: [3, 2],            // Bélgica 3 x 2 Senegal
+    83: [2, 1],            // Portugal 2 x 1 Croácia
+    84: [3, 0],            // Espanha 3 x 0 Áustria
+    85: [2, 0]             // Suíça 2 x 0 Argélia
   };  data.koGames.forEach(g=>{
     const r = KO_RESULTS[g.n];
     if(!r) return;
