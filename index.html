@@ -1440,6 +1440,49 @@ Object.assign(data.koPreds, {
   }
 });
 
+/* ---- Palpites do mata-mata: OITAVAS (jogos 89-96) — 4º lote ----
+   Cami e Lou. Asterisco no envio = quem avança nos pênaltis. */
+(function mergeKoPreds(byPerson){
+  Object.keys(byPerson).forEach(p=>{
+    data.koPreds[p] = Object.assign(data.koPreds[p]||{}, byPerson[p]);
+  });
+})({
+  "Cami": {
+    "89": {"hg": 0, "ag": 2},   // Paraguai 0 x 2 França
+    "90": {"hg": 0, "ag": 2},   // Canadá 0 x 2 Marrocos
+    "91": {"hg": 1, "ag": 0},   // Brasil 1 x 0 Noruega
+    "92": {"hg": 1, "ag": 0},   // México 1 x 0 Inglaterra
+    "93": {"hg": 1, "ag": 2},   // Portugal 1 x 2 Espanha
+    "94": {"hg": 2, "ag": 0},   // EUA 2 x 0 Bélgica
+    "95": {"hg": 2, "ag": 0},   // Argentina 2 x 0 Egito
+    "96": {"hg": 1, "ag": 1, "penWinner": "Colômbia"}  // Suíça 1 x 1 Colômbia (pên → Colômbia)
+  },
+  "Lou": {
+    "89": {"hg": 0, "ag": 3},   // Paraguai 0 x 3 França
+    "90": {"hg": 0, "ag": 1},   // Canadá 0 x 1 Marrocos
+    "91": {"hg": 1, "ag": 1, "penWinner": "Noruega"},  // Brasil 1 x 1 Noruega (pên → Noruega)
+    "92": {"hg": 1, "ag": 2},   // México 1 x 2 Inglaterra
+    "93": {"hg": 1, "ag": 1, "penWinner": "Espanha"},  // Portugal 1 x 1 Espanha (pên → Espanha)
+    "94": {"hg": 2, "ag": 1},   // EUA 2 x 1 Bélgica
+    "95": {"hg": 2, "ag": 1},   // Argentina 2 x 1 Egito
+    "96": {"hg": 0, "ag": 1}    // Suíça 0 x 1 Colômbia
+  }
+});
+
+/* ---- Palpites do mata-mata: OITAVAS (jogos 89-96) — 5º lote ----
+   Bia. Envio veio parcial: só J89 e J90. J91-J96 PENDENTES. */
+(function mergeKoPreds(byPerson){
+  Object.keys(byPerson).forEach(p=>{
+    data.koPreds[p] = Object.assign(data.koPreds[p]||{}, byPerson[p]);
+  });
+})({
+  "Bia": {
+    "89": {"hg": 0, "ag": 2},   // Paraguai 0 x 2 França
+    "90": {"hg": 0, "ag": 2}    // Canadá 0 x 2 Marrocos
+    // "91"-"96": PENDENTES (mensagem cortada)
+  }
+});
+
 /* Preenche automaticamente os confrontos dos 16-avos conforme os grupos
    encerram: o 1º e o 2º de cada grupo completo entram nos slots "1ºX"/"2ºX".
    Os slots de 3º colocado (8 melhores terceiros) só são definidos
