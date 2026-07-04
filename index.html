@@ -1277,6 +1277,169 @@ Object.assign(data.koPreds, {
   }
 });
 
+/* ---- Palpites do mata-mata: OITAVAS (jogos 89-96) ----
+   Chaveamento (mandante x visitante):
+   89 Paraguai x França | 90 Canadá x Marrocos | 91 Brasil x Noruega |
+   92 México x Inglaterra | 93 Portugal x Espanha | 94 EUA x Bélgica |
+   95 Argentina x Egito | 96 Suíça x Colômbia.
+   Em empate, penWinner indica quem o apostador crava avançando.
+   IMPORTANTE: mesclar por pessoa (mergeKoPreds) para NÃO apagar os 16-avos. */
+(function mergeKoPreds(byPerson){
+  Object.keys(byPerson).forEach(p=>{
+    data.koPreds[p] = Object.assign(data.koPreds[p]||{}, byPerson[p]);
+  });
+})({
+  "Bel": {
+    "89": {"hg": 1, "ag": 3},   // Paraguai 1 x 3 França
+    "90": {"hg": 0, "ag": 2},   // Canadá 0 x 2 Marrocos
+    "91": {"hg": 2, "ag": 0},   // Brasil 2 x 0 Noruega
+    "92": {"hg": 1, "ag": 2},   // México 1 x 2 Inglaterra
+    "93": {"hg": 1, "ag": 2},   // Portugal 1 x 2 Espanha
+    "94": {"hg": 2, "ag": 1},   // EUA 2 x 1 Bélgica
+    "95": {"hg": 2, "ag": 1},   // Argentina 2 x 1 Egito
+    "96": {"hg": 1, "ag": 2}    // Suíça 1 x 2 Colômbia
+  },
+  "Claudia": {
+    "89": {"hg": 2, "ag": 1},   // Paraguai 2 x 1 França
+    "90": {"hg": 1, "ag": 3},   // Canadá 1 x 3 Marrocos
+    "91": {"hg": 1, "ag": 3},   // Brasil 1 x 3 Noruega
+    "92": {"hg": 1, "ag": 2},   // México 1 x 2 Inglaterra
+    "93": {"hg": 2, "ag": 3},   // Portugal 2 x 3 Espanha
+    "94": {"hg": 1, "ag": 2},   // EUA 1 x 2 Bélgica
+    "95": {"hg": 1, "ag": 2},   // Argentina 1 x 2 Egito
+    "96": {"hg": 2, "ag": 1}    // Suíça 2 x 1 Colômbia
+  },
+  "Clara": {
+    "89": {"hg": 1, "ag": 2},   // Paraguai 1 x 2 França
+    "90": {"hg": 0, "ag": 2},   // Canadá 0 x 2 Marrocos
+    "91": {"hg": 2, "ag": 1},   // Brasil 2 x 1 Noruega
+    "92": {"hg": 2, "ag": 0},   // México 2 x 0 Inglaterra
+    "93": {"hg": 2, "ag": 2, "penWinner": "Espanha"},  // Portugal 2 x 2 Espanha (pên → Espanha)
+    "94": {"hg": 0, "ag": 1},   // EUA 0 x 1 Bélgica
+    "95": {"hg": 2, "ag": 1},   // Argentina 2 x 1 Egito
+    "96": {"hg": 0, "ag": 1}    // Suíça 0 x 1 Colômbia
+  },
+  "M. Alice": {
+    "89": {"hg": 0, "ag": 3},   // Paraguai 0 x 3 França
+    "90": {"hg": 0, "ag": 2},   // Canadá 0 x 2 Marrocos
+    "91": {"hg": 2, "ag": 1},   // Brasil 2 x 1 Noruega
+    "92": {"hg": 1, "ag": 2},   // México 1 x 2 Inglaterra
+    "93": {"hg": 1, "ag": 1, "penWinner": "Espanha"},  // Portugal 1 x 1 Espanha (pên → Espanha)
+    "94": {"hg": 0, "ag": 2},   // EUA 0 x 2 Bélgica
+    "95": {"hg": 3, "ag": 2},   // Argentina 3 x 2 Egito
+    "96": {"hg": 0, "ag": 1}    // Suíça 0 x 1 Colômbia
+  },
+  "Flo": {
+    "89": {"hg": 1, "ag": 2},   // Paraguai 1 x 2 França
+    "90": {"hg": 1, "ag": 3},   // Canadá 1 x 3 Marrocos
+    "91": {"hg": 3, "ag": 1},   // Brasil 3 x 1 Noruega
+    "92": {"hg": 1, "ag": 2},   // México 1 x 2 Inglaterra
+    "93": {"hg": 1, "ag": 1, "penWinner": "Portugal"}, // Portugal 1 x 1 Espanha (pên → Portugal)
+    "94": {"hg": 0, "ag": 2},   // EUA 0 x 2 Bélgica
+    "95": {"hg": 2, "ag": 1},   // Argentina 2 x 1 Egito
+    "96": {"hg": 0, "ag": 3}    // Suíça 0 x 3 Colômbia
+  },
+  "Luizito": {
+    "89": {"hg": 0, "ag": 2},   // Paraguai 0 x 2 França
+    "90": {"hg": 1, "ag": 2},   // Canadá 1 x 2 Marrocos
+    "91": {"hg": 2, "ag": 0},   // Brasil 2 x 0 Noruega
+    "92": {"hg": 1, "ag": 2},   // México 1 x 2 Inglaterra
+    "93": {"hg": 1, "ag": 2},   // Portugal 1 x 2 Espanha
+    "94": {"hg": 2, "ag": 1},   // EUA 2 x 1 Bélgica
+    "95": {"hg": 2, "ag": 1},   // Argentina 2 x 1 Egito
+    "96": {"hg": 1, "ag": 0}    // Suíça 1 x 0 Colômbia
+  }
+});
+
+/* ---- Palpites do mata-mata: OITAVAS (jogos 89-96) — 2º lote ----
+   Lucas, Alcino, Aninha, Tuco, Pan, Joaquim ("Quim").
+   Asterisco no envio = time que o apostador crava avançando nos pênaltis. */
+(function mergeKoPreds(byPerson){
+  Object.keys(byPerson).forEach(p=>{
+    data.koPreds[p] = Object.assign(data.koPreds[p]||{}, byPerson[p]);
+  });
+})({
+  "Lucas": {
+    "89": {"hg": 0, "ag": 3},   // Paraguai 0 x 3 França
+    "90": {"hg": 1, "ag": 2},   // Canadá 1 x 2 Marrocos
+    "91": {"hg": 2, "ag": 2, "penWinner": "Brasil"},   // Brasil 2 x 2 Noruega (pên → Brasil)
+    "92": {"hg": 1, "ag": 2},   // México 1 x 2 Inglaterra
+    "93": {"hg": 2, "ag": 2, "penWinner": "Portugal"}, // Portugal 2 x 2 Espanha (pên → Portugal)
+    "94": {"hg": 2, "ag": 1},   // EUA 2 x 1 Bélgica
+    "95": {"hg": 2, "ag": 0},   // Argentina 2 x 0 Egito
+    "96": {"hg": 1, "ag": 2}    // Suíça 1 x 2 Colômbia
+  },
+  "Alcino": {
+    "89": {"hg": 1, "ag": 2},   // Paraguai 1 x 2 França
+    "90": {"hg": 1, "ag": 2},   // Canadá 1 x 2 Marrocos
+    "91": {"hg": 2, "ag": 1},   // Brasil 2 x 1 Noruega
+    "92": {"hg": 2, "ag": 1},   // México 2 x 1 Inglaterra
+    "93": {"hg": 1, "ag": 2},   // Portugal 1 x 2 Espanha
+    "94": {"hg": 2, "ag": 1},   // EUA 2 x 1 Bélgica
+    "95": {"hg": 2, "ag": 1},   // Argentina 2 x 1 Egito
+    "96": {"hg": 1, "ag": 2}    // Suíça 1 x 2 Colômbia
+  },
+  "Aninha": {
+    "89": {"hg": 0, "ag": 1},   // Paraguai 0 x 1 França
+    "90": {"hg": 0, "ag": 2},   // Canadá 0 x 2 Marrocos
+    "91": {"hg": 1, "ag": 1, "penWinner": "Noruega"},  // Brasil 1 x 1 Noruega (pên → Noruega)
+    "92": {"hg": 0, "ag": 1},   // México 0 x 1 Inglaterra
+    "93": {"hg": 1, "ag": 2},   // Portugal 1 x 2 Espanha
+    "94": {"hg": 2, "ag": 1},   // EUA 2 x 1 Bélgica
+    "95": {"hg": 2, "ag": 0},   // Argentina 2 x 0 Egito
+    "96": {"hg": 0, "ag": 1}    // Suíça 0 x 1 Colômbia
+  },
+  "Tuco": {
+    "89": {"hg": 1, "ag": 2},   // Paraguai 1 x 2 França
+    "90": {"hg": 1, "ag": 2},   // Canadá 1 x 2 Marrocos
+    "91": {"hg": 2, "ag": 1},   // Brasil 2 x 1 Noruega
+    "92": {"hg": 1, "ag": 2},   // México 1 x 2 Inglaterra
+    "93": {"hg": 1, "ag": 1, "penWinner": "Portugal"}, // Portugal 1 x 1 Espanha (pên → Portugal)
+    "94": {"hg": 2, "ag": 1},   // EUA 2 x 1 Bélgica
+    "95": {"hg": 2, "ag": 1},   // Argentina 2 x 1 Egito
+    "96": {"hg": 3, "ag": 1}    // Suíça 3 x 1 Colômbia
+  },
+  "Pan": {
+    "89": {"hg": 0, "ag": 3},   // Paraguai 0 x 3 França
+    "90": {"hg": 0, "ag": 2},   // Canadá 0 x 2 Marrocos
+    "91": {"hg": 1, "ag": 0},   // Brasil 1 x 0 Noruega
+    "92": {"hg": 0, "ag": 1},   // México 0 x 1 Inglaterra
+    "93": {"hg": 0, "ag": 0, "penWinner": "Portugal"}, // Portugal 0 x 0 Espanha (pên → Portugal)
+    "94": {"hg": 1, "ag": 0},   // EUA 1 x 0 Bélgica
+    "95": {"hg": 3, "ag": 0},   // Argentina 3 x 0 Egito
+    "96": {"hg": 1, "ag": 1, "penWinner": "Colômbia"}  // Suíça 1 x 1 Colômbia (pên → Colômbia)
+  },
+  "Joaquim": {
+    "89": {"hg": 0, "ag": 3},   // Paraguai 0 x 3 França
+    "90": {"hg": 0, "ag": 2},   // Canadá 0 x 2 Marrocos
+    "91": {"hg": 1, "ag": 0},   // Brasil 1 x 0 Noruega
+    "92": {"hg": 0, "ag": 1},   // México 0 x 1 Inglaterra
+    "93": {"hg": 0, "ag": 0, "penWinner": "Espanha"},  // Portugal 0 x 0 Espanha (pên → Espanha)
+    "94": {"hg": 0, "ag": 1},   // EUA 0 x 1 Bélgica
+    "95": {"hg": 3, "ag": 0},   // Argentina 3 x 0 Egito
+    "96": {"hg": 1, "ag": 1, "penWinner": "Colômbia"}  // Suíça 1 x 1 Colômbia (pên → Colômbia)
+  }
+});
+
+/* ---- Palpites do mata-mata: OITAVAS (jogos 89-96) — 3º lote ----
+   Joca. J93 (Portugal 2x2 Espanha): passa Portugal nos pênaltis. Completo. */
+(function mergeKoPreds(byPerson){
+  Object.keys(byPerson).forEach(p=>{
+    data.koPreds[p] = Object.assign(data.koPreds[p]||{}, byPerson[p]);
+  });
+})({
+  "Joca": {
+    "89": {"hg": 0, "ag": 3},   // Paraguai 0 x 3 França
+    "90": {"hg": 1, "ag": 2},   // Canadá 1 x 2 Marrocos
+    "91": {"hg": 2, "ag": 0},   // Brasil 2 x 0 Noruega
+    "92": {"hg": 2, "ag": 1},   // México 2 x 1 Inglaterra
+    "93": {"hg": 2, "ag": 2, "penWinner": "Portugal"},  // Portugal 2 x 2 Espanha (pên → Portugal)
+    "94": {"hg": 2, "ag": 0},   // EUA 2 x 0 Bélgica
+    "95": {"hg": 3, "ag": 1},   // Argentina 3 x 1 Egito
+    "96": {"hg": 0, "ag": 2}    // Suíça 0 x 2 Colômbia
+  }
+});
+
 /* Preenche automaticamente os confrontos dos 16-avos conforme os grupos
    encerram: o 1º e o 2º de cada grupo completo entram nos slots "1ºX"/"2ºX".
    Os slots de 3º colocado (8 melhores terceiros) só são definidos
