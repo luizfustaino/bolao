@@ -1470,7 +1470,8 @@ Object.assign(data.koPreds, {
 });
 
 /* ---- Palpites do mata-mata: OITAVAS (jogos 89-96) — 5º lote ----
-   Bia. Envio veio parcial: só J89 e J90. J91-J96 PENDENTES. */
+   Bia. J89/J90 no envio inicial; J91 e J92 recebidos depois (jogos já
+   realizados — lançados retroativos). J93-J96 ainda PENDENTES. */
 (function mergeKoPreds(byPerson){
   Object.keys(byPerson).forEach(p=>{
     data.koPreds[p] = Object.assign(data.koPreds[p]||{}, byPerson[p]);
@@ -1478,8 +1479,10 @@ Object.assign(data.koPreds, {
 })({
   "Bia": {
     "89": {"hg": 0, "ag": 2},   // Paraguai 0 x 2 França
-    "90": {"hg": 0, "ag": 2}    // Canadá 0 x 2 Marrocos
-    // "91"-"96": PENDENTES (mensagem cortada)
+    "90": {"hg": 0, "ag": 2},   // Canadá 0 x 2 Marrocos
+    "91": {"hg": 3, "ag": 2},   // Brasil 3 x 2 Noruega
+    "92": {"hg": 2, "ag": 2, "penWinner": "Inglaterra"}  // México 2 x 2 Inglaterra (pên → Inglaterra)
+    // "93"-"96": PENDENTES
   }
 });
 
@@ -1548,7 +1551,9 @@ Object.assign(data.koPreds, {
     88: [1, 1, 2, 4],      // Austrália 1 (2) x 1 (4) Egito — passa Egito
     // ---- Oitavas (89-96) ----
     89: [0, 1],            // 04/07 — Paraguai 0 x 1 França
-    90: [0, 3]             // 04/07 — Canadá 0 x 3 Marrocos
+    90: [0, 3],            // 04/07 — Canadá 0 x 3 Marrocos
+    91: [1, 2],            // 05/07 — Brasil 1 x 2 Noruega
+    92: [2, 3]             // 05/07 — México 2 x 3 Inglaterra
   };  data.koGames.forEach(g=>{
     const r = KO_RESULTS[g.n];
     if(!r) return;
