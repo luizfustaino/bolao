@@ -1488,6 +1488,117 @@ Object.assign(data.koPreds, {
   }
 });
 
+/* ---- Palpites do mata-mata: QUARTAS (jogos 97-100) — 6º lote ----
+   Chaveamento (mandante x visitante):
+   97 França x Marrocos | 98 Espanha x Bélgica | 99 Noruega x Inglaterra |
+   100 Argentina x Suíça.
+   Asterisco/"segue"/"penalties" = quem o apostador crava avançando em empate.
+   Pan enviou em ordem/lado trocados; ajustado ao chaveamento. */
+(function mergeKoPreds(byPerson){
+  Object.keys(byPerson).forEach(p=>{
+    data.koPreds[p] = Object.assign(data.koPreds[p]||{}, byPerson[p]);
+  });
+})({
+  "Claudia": {
+    "97": {"hg": 2, "ag": 1},   // França 2 x 1 Marrocos
+    "98": {"hg": 2, "ag": 1},   // Espanha 2 x 1 Bélgica
+    "99": {"hg": 1, "ag": 0},   // Noruega 1 x 0 Inglaterra
+    "100": {"hg": 2, "ag": 1}   // Argentina 2 x 1 Suíça
+  },
+  "Bel": {
+    "97": {"hg": 3, "ag": 2},   // França 3 x 2 Marrocos
+    "98": {"hg": 2, "ag": 0},   // Espanha 2 x 0 Bélgica
+    "99": {"hg": 2, "ag": 1},   // Noruega 2 x 1 Inglaterra
+    "100": {"hg": 3, "ag": 1}   // Argentina 3 x 1 Suíça
+  },
+  "M. Alice": {
+    "97": {"hg": 2, "ag": 1},   // França 2 x 1 Marrocos
+    "98": {"hg": 1, "ag": 1, "penWinner": "Espanha"},   // Espanha 1 x 1 Bélgica (pên → Espanha)
+    "99": {"hg": 2, "ag": 2, "penWinner": "Noruega"},   // Noruega 2 x 2 Inglaterra (pên → Noruega)
+    "100": {"hg": 2, "ag": 0}   // Argentina 2 x 0 Suíça
+  },
+  "Lucas": {
+    "97": {"hg": 3, "ag": 1},   // França 3 x 1 Marrocos
+    "98": {"hg": 2, "ag": 1},   // Espanha 2 x 1 Bélgica
+    "99": {"hg": 2, "ag": 3},   // Noruega 2 x 3 Inglaterra
+    "100": {"hg": 3, "ag": 2}   // Argentina 3 x 2 Suíça
+  },
+  "Bia": {
+    "97": {"hg": 3, "ag": 1},   // França 3 x 1 Marrocos
+    "98": {"hg": 2, "ag": 0},   // Espanha 2 x 0 Bélgica
+    "99": {"hg": 3, "ag": 2},   // Noruega 3 x 2 Inglaterra
+    "100": {"hg": 3, "ag": 1}   // Argentina 3 x 1 Suíça
+  },
+  "Flo": {
+    "97": {"hg": 2, "ag": 2, "penWinner": "França"},    // França 2 x 2 Marrocos (segue França)
+    "98": {"hg": 1, "ag": 2},   // Espanha 1 x 2 Bélgica
+    "99": {"hg": 1, "ag": 3},   // Noruega 1 x 3 Inglaterra
+    "100": {"hg": 2, "ag": 1}   // Argentina 2 x 1 Suíça
+  },
+  "Luizito": {
+    "97": {"hg": 2, "ag": 1},   // França 2 x 1 Marrocos
+    "98": {"hg": 2, "ag": 1},   // Espanha 2 x 1 Bélgica
+    "99": {"hg": 1, "ag": 2},   // Noruega 1 x 2 Inglaterra
+    "100": {"hg": 2, "ag": 1}   // Argentina 2 x 1 Suíça
+  },
+  "Joaquim": {
+    "97": {"hg": 2, "ag": 1},   // França 2 x 1 Marrocos
+    "98": {"hg": 2, "ag": 1},   // Espanha 2 x 1 Bélgica
+    "99": {"hg": 1, "ag": 2},   // Noruega 1 x 2 Inglaterra
+    "100": {"hg": 2, "ag": 0}   // Argentina 2 x 0 Suíça
+  },
+  "Clara": {
+    "97": {"hg": 3, "ag": 1},   // França 3 x 1 Marrocos
+    "98": {"hg": 2, "ag": 1},   // Espanha 2 x 1 Bélgica
+    "99": {"hg": 2, "ag": 2, "penWinner": "Inglaterra"},// Noruega 2 x 2 Inglaterra (pên → Inglaterra)
+    "100": {"hg": 3, "ag": 0}   // Argentina 3 x 0 Suíça
+  },
+  "Tuco": {
+    "97": {"hg": 2, "ag": 1},   // França 2 x 1 Marrocos
+    "98": {"hg": 3, "ag": 2},   // Espanha 3 x 2 Bélgica
+    "99": {"hg": 1, "ag": 2},   // Noruega 1 x 2 Inglaterra
+    "100": {"hg": 2, "ag": 1}   // Argentina 2 x 1 Suíça
+  },
+  "Cami": {
+    "97": {"hg": 3, "ag": 2},   // França 3 x 2 Marrocos
+    "98": {"hg": 3, "ag": 1},   // Espanha 3 x 1 Bélgica
+    "99": {"hg": 1, "ag": 2},   // Noruega 1 x 2 Inglaterra
+    "100": {"hg": 2, "ag": 0}   // Argentina 2 x 0 Suíça
+  },
+  "Lou": {
+    "97": {"hg": 3, "ag": 2},   // França 3 x 2 Marrocos
+    "98": {"hg": 2, "ag": 1},   // Espanha 2 x 1 Bélgica
+    "99": {"hg": 1, "ag": 1, "penWinner": "Inglaterra"},// Noruega 1 x 1 Inglaterra (pên → Inglaterra)
+    "100": {"hg": 2, "ag": 1}   // Argentina 2 x 1 Suíça
+  },
+  "Pan": {
+    "97": {"hg": 2, "ag": 0},   // França 2 x 0 Marrocos
+    "98": {"hg": 2, "ag": 1},   // Espanha 2 x 1 Bélgica (enviado "Bélgica 1 x 2 Espanha")
+    "99": {"hg": 1, "ag": 2},   // Noruega 1 x 2 Inglaterra (enviado "Inglaterra 2 x 1 Noruega")
+    "100": {"hg": 2, "ag": 0}   // Argentina 2 x 0 Suíça (enviado "Suíça 0 x 2 Argentina")
+  }
+});
+
+/* ---- Palpites do mata-mata: QUARTAS (jogos 97-100) — 7º lote ----
+   Joca (completa as quartas). Gi ESTREIA no bolão: só o J97 até agora
+   (enviou "Marrocos 3 x 2 França" → no chaveamento França 2 x 3 Marrocos). */
+(function mergeKoPreds(byPerson){
+  Object.keys(byPerson).forEach(p=>{
+    data.koPreds[p] = Object.assign(data.koPreds[p]||{}, byPerson[p]);
+  });
+})({
+  "Joca": {
+    "97": {"hg": 3, "ag": 0},   // França 3 x 0 Marrocos
+    "98": {"hg": 2, "ag": 1},   // Espanha 2 x 1 Bélgica
+    "99": {"hg": 1, "ag": 3},   // Noruega 1 x 3 Inglaterra
+    "100": {"hg": 3, "ag": 0}   // Argentina 3 x 0 Suíça
+  },
+  "Gi": {
+    "97": {"hg": 2, "ag": 3}    // França 2 x 3 Marrocos (Gi: "Marrocos 3 x 2 França")
+    // "98"-"100": ainda sem palpite
+  }
+});
+
 /* Preenche automaticamente os confrontos dos 16-avos conforme os grupos
    encerram: o 1º e o 2º de cada grupo completo entram nos slots "1ºX"/"2ºX".
    Os slots de 3º colocado (8 melhores terceiros) só são definidos
@@ -1559,7 +1670,8 @@ Object.assign(data.koPreds, {
     93: [0, 1],            // Portugal 0 x 1 Espanha
     94: [1, 4],            // EUA 1 x 4 Bélgica
     95: [3, 2],            // Argentina 3 x 2 Egito
-    96: [0, 0, 4, 3]       // Suíça 0 (4) x (3) 0 Colômbia — passa Suíça nos pênaltis
+    96: [0, 0, 4, 3],      // Suíça 0 (4) x (3) 0 Colômbia — passa Suíça nos pênaltis
+    97: [2, 0]             // França 2 x 0 Marrocos
   };  data.koGames.forEach(g=>{
     const r = KO_RESULTS[g.n];
     if(!r) return;
