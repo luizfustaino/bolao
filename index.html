@@ -1594,8 +1594,9 @@ Object.assign(data.koPreds, {
     "100": {"hg": 3, "ag": 0}   // Argentina 3 x 0 Suíça
   },
   "Gi": {
-    "97": {"hg": 2, "ag": 3}    // França 2 x 3 Marrocos (Gi: "Marrocos 3 x 2 França")
-    // "98"-"100": ainda sem palpite
+    "97": {"hg": 2, "ag": 3},   // França 2 x 3 Marrocos (Gi: "Marrocos 3 x 2 França")
+    "98": {"hg": 2, "ag": 1}    // Espanha 2 x 1 Bélgica
+    // "99"-"100": ainda sem palpite
   }
 });
 
@@ -1671,7 +1672,8 @@ Object.assign(data.koPreds, {
     94: [1, 4],            // EUA 1 x 4 Bélgica
     95: [3, 2],            // Argentina 3 x 2 Egito
     96: [0, 0, 4, 3],      // Suíça 0 (4) x (3) 0 Colômbia — passa Suíça nos pênaltis
-    97: [2, 0]             // França 2 x 0 Marrocos
+    97: [2, 0],            // França 2 x 0 Marrocos
+    98: [2, 1]             // Espanha 2 x 1 Bélgica
   };  data.koGames.forEach(g=>{
     const r = KO_RESULTS[g.n];
     if(!r) return;
