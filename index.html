@@ -1600,6 +1600,89 @@ Object.assign(data.koPreds, {
   }
 });
 
+/* ---- Palpites do mata-mata: SEMIFINAIS (jogos 101-102) — 8º lote ----
+   Chaveamento: 101 França x Espanha | 102 Inglaterra x Argentina.
+   Asterisco/"passa" = quem o apostador crava avançando em caso de empate. */
+(function mergeKoPreds(byPerson){
+  Object.keys(byPerson).forEach(p=>{
+    data.koPreds[p] = Object.assign(data.koPreds[p]||{}, byPerson[p]);
+  });
+})({
+  "Claudia": {
+    "101": {"hg": 1, "ag": 2},  // França 1 x 2 Espanha
+    "102": {"hg": 2, "ag": 3}   // Inglaterra 2 x 3 Argentina
+  },
+  "Lucas": {
+    "101": {"hg": 3, "ag": 1},  // França 3 x 1 Espanha
+    "102": {"hg": 2, "ag": 2, "penWinner": "Argentina"}  // Inglaterra 2 x 2 Argentina (pên → Argentina)
+  },
+  "Bel": {
+    "101": {"hg": 2, "ag": 1},  // França 2 x 1 Espanha
+    "102": {"hg": 1, "ag": 1, "penWinner": "Inglaterra"} // Inglaterra 1 x 1 Argentina (pên → Inglaterra)
+  },
+  "M. Alice": {
+    "101": {"hg": 2, "ag": 2, "penWinner": "Espanha"},   // França 2 x 2 Espanha (pên → Espanha)
+    "102": {"hg": 2, "ag": 1}   // Inglaterra 2 x 1 Argentina
+  },
+  "Luizito": {
+    "101": {"hg": 2, "ag": 1},  // França 2 x 1 Espanha
+    "102": {"hg": 2, "ag": 1}   // Inglaterra 2 x 1 Argentina
+  },
+  "Flo": {
+    "101": {"hg": 3, "ag": 2},  // França 3 x 2 Espanha
+    "102": {"hg": 3, "ag": 1}   // Inglaterra 3 x 1 Argentina
+  },
+  "Lou": {
+    "101": {"hg": 3, "ag": 1},  // França 3 x 1 Espanha
+    "102": {"hg": 2, "ag": 1}   // Inglaterra 2 x 1 Argentina
+  },
+  "Joca": {
+    "101": {"hg": 2, "ag": 0},  // França 2 x 0 Espanha
+    "102": {"hg": 1, "ag": 2}   // Inglaterra 1 x 2 Argentina
+  },
+  "Joaquim": {
+    "101": {"hg": 2, "ag": 1},  // França 2 x 1 Espanha
+    "102": {"hg": 1, "ag": 1, "penWinner": "Inglaterra"} // Inglaterra 1 x 1 Argentina (pên → Inglaterra)
+  },
+  "Pan": {
+    "101": {"hg": 1, "ag": 0},  // França 1 x 0 Espanha
+    "102": {"hg": 1, "ag": 1, "penWinner": "Inglaterra"} // Inglaterra 1 x 1 Argentina (pên → Inglaterra)
+  },
+  "Tuco": {
+    "101": {"hg": 2, "ag": 1},  // França 2 x 1 Espanha
+    "102": {"hg": 2, "ag": 1}   // Inglaterra 2 x 1 Argentina
+  },
+  "Ga": {
+    "101": {"hg": 1, "ag": 0},  // França 1 x 0 Espanha
+    "102": {"hg": 0, "ag": 0, "penWinner": "Argentina"}  // Inglaterra 0 x 0 Argentina (pên → Argentina)
+  },
+  "Clara": {
+    "101": {"hg": 3, "ag": 2},  // França 3 x 2 Espanha
+    "102": {"hg": 2, "ag": 2, "penWinner": "Inglaterra"} // Inglaterra 2 x 2 Argentina (pên → Inglaterra)
+  },
+  "Bia": {
+    "101": {"hg": 3, "ag": 1},  // França 3 x 1 Espanha
+    "102": {"hg": 2, "ag": 2, "penWinner": "Inglaterra"} // Inglaterra 2 x 2 Argentina (pên → Inglaterra)
+  },
+  "Aninha": {
+    "101": {"hg": 1, "ag": 0},  // França 1 x 0 Espanha
+    "102": {"hg": 3, "ag": 2}   // Inglaterra 3 x 2 Argentina
+  }
+});
+
+/* ---- Palpites do mata-mata: SEMIFINAIS (jogos 101-102) — 9º lote ----
+   Cami. */
+(function mergeKoPreds(byPerson){
+  Object.keys(byPerson).forEach(p=>{
+    data.koPreds[p] = Object.assign(data.koPreds[p]||{}, byPerson[p]);
+  });
+})({
+  "Cami": {
+    "101": {"hg": 2, "ag": 3},  // França 2 x 3 Espanha
+    "102": {"hg": 2, "ag": 1}   // Inglaterra 2 x 1 Argentina
+  }
+});
+
 /* Preenche automaticamente os confrontos dos 16-avos conforme os grupos
    encerram: o 1º e o 2º de cada grupo completo entram nos slots "1ºX"/"2ºX".
    Os slots de 3º colocado (8 melhores terceiros) só são definidos
