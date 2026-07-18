@@ -1683,6 +1683,116 @@ Object.assign(data.koPreds, {
   }
 });
 
+/* ---- Palpites do mata-mata: 3º LUGAR e FINAL (jogos 103-104) — 10º lote ----
+   Chaveamento: 103 França x Inglaterra (3º lugar) | 104 Espanha x Argentina (final).
+   DECISÃO DO ORGANIZADOR: o +1 "quem avança" VALE também nestes dois jogos —
+   soma +1 para quem acertar o vencedor da final e do 3º lugar (comportamento
+   padrão do koScoreOf, que aplica o bônus a todos os jogos com resultado).
+   O penWinner também registra o vencedor nos pênaltis no cartão. */
+(function mergeKoPreds(byPerson){
+  Object.keys(byPerson).forEach(p=>{
+    data.koPreds[p] = Object.assign(data.koPreds[p]||{}, byPerson[p]);
+  });
+})({
+  "M. Alice": {
+    "103": {"hg": 3, "ag": 2},  // França 3 x 2 Inglaterra
+    "104": {"hg": 2, "ag": 1}   // Espanha 2 x 1 Argentina
+  },
+  "Claudia": {
+    "103": {"hg": 2, "ag": 1},  // França 2 x 1 Inglaterra
+    "104": {"hg": 1, "ag": 0}   // Espanha 1 x 0 Argentina
+  },
+  "Bel": {
+    "103": {"hg": 2, "ag": 1},  // França 2 x 1 Inglaterra
+    "104": {"hg": 2, "ag": 1}   // Espanha 2 x 1 Argentina
+  },
+  "Flo": {
+    "103": {"hg": 2, "ag": 2, "penWinner": "Inglaterra"}, // França 2 x 2 Inglaterra (dá Inglaterra)
+    "104": {"hg": 2, "ag": 0}   // Espanha 2 x 0 Argentina
+  },
+  "Lucas": {
+    "103": {"hg": 3, "ag": 2},  // França 3 x 2 Inglaterra
+    "104": {"hg": 2, "ag": 2, "penWinner": "Argentina"}   // Espanha 2 x 2 Argentina (pên → Argentina)
+  },
+  "Joca": {
+    "103": {"hg": 2, "ag": 0},  // França 2 x 0 Inglaterra
+    "104": {"hg": 0, "ag": 2}   // Espanha 0 x 2 Argentina
+  },
+  "Aninha": {
+    "103": {"hg": 2, "ag": 1},  // França 2 x 1 Inglaterra
+    "104": {"hg": 1, "ag": 1, "penWinner": "Argentina"}   // Espanha 1 x 1 Argentina (pên → Argentina)
+  },
+  "Luizito": {
+    "103": {"hg": 2, "ag": 2, "penWinner": "França"},     // França 2 x 2 Inglaterra (pên → França)
+    "104": {"hg": 2, "ag": 1}   // Espanha 2 x 1 Argentina
+  },
+  "Lou": {
+    "103": {"hg": 2, "ag": 1},  // França 2 x 1 Inglaterra
+    "104": {"hg": 2, "ag": 2, "penWinner": "Argentina"}   // Espanha 2 x 2 Argentina (pên → Argentina)
+  }
+});
+
+/* ---- Palpites do mata-mata: 3º LUGAR e FINAL (jogos 103-104) — 11º lote ----
+   Cami e Clara. */
+(function mergeKoPreds(byPerson){
+  Object.keys(byPerson).forEach(p=>{
+    data.koPreds[p] = Object.assign(data.koPreds[p]||{}, byPerson[p]);
+  });
+})({
+  "Cami": {
+    "103": {"hg": 2, "ag": 1},  // França 2 x 1 Inglaterra
+    "104": {"hg": 1, "ag": 2}   // Espanha 1 x 2 Argentina
+  },
+  "Clara": {
+    "103": {"hg": 2, "ag": 2, "penWinner": "França"},     // França 2 x 2 Inglaterra (pên → França)
+    "104": {"hg": 3, "ag": 2}   // Espanha 3 x 2 Argentina
+  }
+});
+
+/* ---- Palpites do mata-mata: 3º LUGAR e FINAL (jogos 103-104) — 12º lote ----
+   Pan e Tuco. */
+(function mergeKoPreds(byPerson){
+  Object.keys(byPerson).forEach(p=>{
+    data.koPreds[p] = Object.assign(data.koPreds[p]||{}, byPerson[p]);
+  });
+})({
+  "Pan": {
+    "103": {"hg": 2, "ag": 1},  // França 2 x 1 Inglaterra
+    "104": {"hg": 2, "ag": 1}   // Espanha 2 x 1 Argentina
+  },
+  "Tuco": {
+    "103": {"hg": 2, "ag": 1},  // França 2 x 1 Inglaterra
+    "104": {"hg": 2, "ag": 1}   // Espanha 2 x 1 Argentina
+  }
+});
+
+/* ---- Palpites do mata-mata: 3º LUGAR e FINAL (jogos 103-104) — 13º lote ----
+   Joaquim ("Quim"). J103 empate → Inglaterra nos pênaltis;
+   J104 empate → Espanha campeã nos pênaltis. */
+(function mergeKoPreds(byPerson){
+  Object.keys(byPerson).forEach(p=>{
+    data.koPreds[p] = Object.assign(data.koPreds[p]||{}, byPerson[p]);
+  });
+})({
+  "Joaquim": {
+    "103": {"hg": 1, "ag": 1, "penWinner": "Inglaterra"}, // França 1 x 1 Inglaterra (pên → Inglaterra)
+    "104": {"hg": 1, "ag": 1, "penWinner": "Espanha"}     // Espanha 1 x 1 Argentina (pên → Espanha)
+  }
+});
+
+/* ---- Palpites do mata-mata: 3º LUGAR e FINAL (jogos 103-104) — 14º lote ----
+   Bia. J104 empate → Argentina campeã nos pênaltis. */
+(function mergeKoPreds(byPerson){
+  Object.keys(byPerson).forEach(p=>{
+    data.koPreds[p] = Object.assign(data.koPreds[p]||{}, byPerson[p]);
+  });
+})({
+  "Bia": {
+    "103": {"hg": 2, "ag": 1},  // França 2 x 1 Inglaterra
+    "104": {"hg": 2, "ag": 2, "penWinner": "Argentina"}   // Espanha 2 x 2 Argentina (pên → Argentina)
+  }
+});
+
 /* Preenche automaticamente os confrontos dos 16-avos conforme os grupos
    encerram: o 1º e o 2º de cada grupo completo entram nos slots "1ºX"/"2ºX".
    Os slots de 3º colocado (8 melhores terceiros) só são definidos
